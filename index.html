@@ -6,7 +6,7 @@
     <title>Weoss Translations | Каталог новелл</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #0b0a0d;
@@ -49,15 +49,13 @@
             margin-bottom: 25px;
         }
 
-        /* Темно-красный глубокий градиент */
+        /* Четкий, строгий белый заголовок без аляповатого градиента */
         header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
+            font-size: 2.6rem;
+            font-weight: 800;
             margin-bottom: 16px;
-            background: linear-gradient(135deg, #f8fafc 15%, #ef4444 55%, #991b1b 95%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
+            color: #ffffff;
+            letter-spacing: -0.6px;
         }
 
         .social-links {
@@ -67,22 +65,26 @@
             margin-bottom: 22px;
         }
 
+        /* Кнопка Telegram с темно-красным градиентом */
         .btn-social {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background-color: #229ED9;
-            color: white;
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            color: #ffffff;
             text-decoration: none;
-            padding: 9px 20px;
+            padding: 10px 22px;
             border-radius: 10px;
             font-weight: 500;
             font-size: 0.92rem;
-            transition: transform 0.15s, opacity 0.2s;
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            box-shadow: 0 4px 16px rgba(185, 28, 28, 0.3);
+            transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
         }
 
         .btn-social:hover {
-            opacity: 0.92;
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+            box-shadow: 0 6px 22px rgba(185, 28, 28, 0.45);
             transform: translateY(-1px);
         }
 
@@ -170,7 +172,7 @@
             display: block;
         }
 
-        /* Карточка с вертикальным постером */
+        /* Карточка новеллы */
         .card {
             background-color: var(--card-bg);
             border: 1px solid var(--border);
@@ -452,7 +454,7 @@
                 </a>
             </div>
 
-            <!-- Важная информация без точки на конце -->
+            <!-- Важная информация -->
             <div class="notice-bar">
                 <span class="notice-tag">Важно</span>
                 <p>
@@ -485,7 +487,6 @@
                             <h2>Corpse Factory</h2>
                             <div class="game-meta">River End Games • 2022</div>
 
-                            <!-- Описание без точки на конце -->
                             <p>
                                 Мрачный визуальный триллер о веб-сайте Corpse Factory, где можно запросить смерть человека, загрузив его фото, и о серии загадочных смертей в Токио
                             </p>
@@ -503,7 +504,6 @@
                             </div>
 
                             <div class="actions">
-                                <a href="#telegram" class="btn">✈️ Следить в Telegram</a>
                                 <a href="https://store.steampowered.com/app/1414250/CORPSE_FACTORY/" target="_blank" rel="noopener" class="btn btn-secondary">Страница в Steam</a>
                             </div>
                         </div>
@@ -554,7 +554,6 @@
             </div>
         </main>
 
-        <!-- Футер без точки на конце -->
         <footer>
             <p>© 2026 Weoss Translations. Все права на оригинальные игры принадлежат их авторам и издателям</p>
         </footer>
