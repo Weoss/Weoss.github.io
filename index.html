@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Переводы визуальных новелл | Мой каталог</title>
+    <title>Weoss | Переводы визуальных новелл</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0f1117;
-            --card-bg: #1a1d26;
+            --bg-color: #0b0d13;
+            --card-bg: #141722;
+            --card-hover: #191d2b;
             --accent: #8b5cf6;
             --accent-hover: #7c3aed;
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
+            --border: #252a3b;
+            --border-hover: #434c69;
             --badge-bg: rgba(139, 92, 246, 0.15);
-            --badge-border: rgba(139, 92, 246, 0.3);
-            --border: #2e3444;
+            --badge-border: rgba(139, 92, 246, 0.35);
         }
 
         * {
@@ -42,14 +44,28 @@
 
         header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 46px;
+        }
+
+        .author-tag {
+            display: inline-block;
+            background: rgba(139, 92, 246, 0.12);
+            color: #c4b5fd;
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            padding: 4px 14px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
 
         header h1 {
-            font-size: 2.2rem;
+            font-size: 2.3rem;
             font-weight: 700;
             margin-bottom: 12px;
-            background: linear-gradient(135deg, #a78bfa, #f472b6);
+            background: linear-gradient(135deg, #c4b5fd, #f472b6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -57,8 +73,8 @@
         header p {
             color: var(--text-muted);
             font-size: 1.05rem;
-            max-width: 600px;
-            margin: 0 auto 20px auto;
+            max-width: 620px;
+            margin: 0 auto 22px auto;
         }
 
         .social-links {
@@ -74,56 +90,89 @@
             background-color: #229ED9;
             color: white;
             text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 8px;
+            padding: 10px 22px;
+            border-radius: 10px;
             font-weight: 500;
             font-size: 0.95rem;
-            transition: opacity 0.2s;
+            transition: transform 0.15s, opacity 0.2s;
         }
 
         .btn-social:hover {
-            opacity: 0.9;
+            opacity: 0.92;
+            transform: translateY(-1px);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex-grow: 1;
+            height: 1px;
+            background-color: var(--border);
         }
 
         .grid {
             display: flex;
             flex-direction: column;
             gap: 24px;
+            margin-bottom: 40px;
         }
 
         .card {
             background-color: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 14px;
+            border-radius: 16px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            transition: transform 0.2s, border-color 0.2s;
+            transition: transform 0.2s, border-color 0.2s, background-color 0.2s;
         }
 
-        @media (min-width: 640px) {
+        @media (min-width: 680px) {
             .card {
                 flex-direction: row;
             }
         }
 
         .card:hover {
-            border-color: var(--accent);
+            border-color: var(--border-hover);
+            background-color: var(--card-hover);
+        }
+
+        .card-img-wrap {
+            width: 100%;
+            height: 220px;
+            position: relative;
+            background: #1e2230;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        @media (min-width: 680px) {
+            .card-img-wrap {
+                width: 290px;
+                height: auto;
+                min-height: 250px;
+            }
         }
 
         .card-img {
             width: 100%;
-            height: 200px;
+            height: 100%;
             object-fit: cover;
-            background: #252a38;
+            transition: transform 0.3s ease;
         }
 
-        @media (min-width: 640px) {
-            .card-img {
-                width: 240px;
-                height: auto;
-                min-height: 220px;
-            }
+        .card:hover .card-img {
+            transform: scale(1.03);
         }
 
         .card-content {
@@ -144,35 +193,79 @@
             background-color: var(--badge-bg);
             color: #c4b5fd;
             border: 1px solid var(--badge-border);
-            padding: 2px 10px;
+            padding: 3px 10px;
             border-radius: 999px;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 600;
         }
 
-        .badge-green {
-            background-color: rgba(34, 197, 94, 0.15);
-            color: #86efac;
-            border-color: rgba(34, 197, 94, 0.3);
+        .badge-warning {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            border-color: rgba(245, 158, 11, 0.35);
+        }
+
+        .badge-subtle {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #9ca3af;
+            border-color: var(--border);
         }
 
         .card h2 {
-            font-size: 1.35rem;
-            font-weight: 600;
-            margin-bottom: 6px;
+            font-size: 1.45rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #ffffff;
         }
 
         .card .original-title {
             color: var(--text-muted);
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             margin-bottom: 12px;
         }
 
         .card p {
             color: #d1d5db;
             font-size: 0.95rem;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             flex-grow: 1;
+        }
+
+        /* Прогресс-бар */
+        .progress-box {
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .progress-header span:last-child {
+            color: #fbbf24;
+            font-weight: 600;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 7px;
+            background: #252a3b;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 20%;
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+            border-radius: 999px;
         }
 
         .actions {
@@ -186,14 +279,15 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            gap: 6px;
             background-color: var(--accent);
             color: white;
             text-decoration: none;
             padding: 9px 16px;
             border-radius: 8px;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 500;
-            transition: background 0.2s;
+            transition: background 0.2s, transform 0.1s;
         }
 
         .btn:hover {
@@ -208,12 +302,45 @@
 
         .btn-secondary:hover {
             background-color: rgba(255, 255, 255, 0.05);
-            border-color: var(--text-muted);
+            border-color: var(--border-hover);
+        }
+
+        /* Блок дисклеймера и правил */
+        .disclaimer-card {
+            background: linear-gradient(180deg, rgba(30, 36, 51, 0.6), rgba(20, 23, 34, 0.9));
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
+
+        .disclaimer-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #c4b5fd;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .disclaimer-card p {
+            color: #d1d5db;
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        .disclaimer-card p strong {
+            color: #ffffff;
         }
 
         footer {
             text-align: center;
-            margin-top: 60px;
+            margin-top: 50px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             color: var(--text-muted);
             font-size: 0.85rem;
         }
@@ -223,56 +350,70 @@
 
     <div class="container">
         <header>
-            <h1>Каталог переводов новелл</h1>
-            <p>Здесь собраны патчи и переводы визуальных новелл. Все файлы бесплатны, без вирусов и рекламы.</p>
+            <span class="author-tag">Некоммерческие переводы</span>
+            <h1>Weoss | Каталог новелл</h1>
+            <p>Переводы и локализации визуальных новелл от независимого энтузиаста. Без рекламы и платного доступа.</p>
             <div class="social-links">
-                <a href="https://t.me/your_telegram_channel" target="_blank" class="btn-social">
-                    ✈️ Наш Telegram-канал
+                <a href="#telegram" class="btn-social">
+                    ✈️ Telegram-канал
                 </a>
             </div>
         </header>
 
-        <main class="grid">
-            <!-- КАРТОЧКА НОВЕЛЛЫ 1 -->
-            <article class="card">
-                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500&auto=format&fit=crop&q=60" alt="Cover" class="card-img">
-                <div class="card-content">
-                    <div class="badges">
-                        <span class="badge badge-green">Готово 100%</span>
-                        <span class="badge">Версия 1.0</span>
-                    </div>
-                    <h2>Название визуальной новеллы</h2>
-                    <div class="original-title">Оригинальное имя / Original Title (2024)</div>
-                    <p>Краткое описание сюжета новеллы. Патч переводит весь сюжет, меню, настройки и изображения интерфейса.</p>
-                    
-                    <div class="actions">
-                        <a href="#" class="btn">📥 Скачать патч (GitHub)</a>
-                        <a href="#" class="btn btn-secondary">Зеркало (Google Drive)</a>
-                        <a href="#" class="btn btn-secondary">Инструкция по установке</a>
-                    </div>
-                </div>
-            </article>
+        <main>
+            <div class="section-title">Проекты в работе</div>
 
-            <!-- КАРТОЧКА НОВЕЛЛЫ 2 (В ПРОЦЕССЕ) -->
-            <article class="card">
-                <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=500&auto=format&fit=crop&q=60" alt="Cover" class="card-img">
-                <div class="card-content">
-                    <div class="badges">
-                        <span class="badge" style="background: rgba(234, 179, 8, 0.15); color: #fde047; border-color: rgba(234, 179, 8, 0.3);">В процессе (45%)</span>
+            <div class="grid">
+                <!-- CORPSE FACTORY -->
+                <article class="card">
+                    <div class="card-img-wrap">
+                        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1614640/header.jpg" alt="CORPSE FACTORY" class="card-img">
                     </div>
-                    <h2>Вторая новелла</h2>
-                    <div class="original-title">Second Visual Novel Name</div>
-                    <p>Перевод в активной работе. Новости и тестовые сборки публикуются в Telegram.</p>
-                    
-                    <div class="actions">
-                        <a href="https://t.me/your_telegram_channel" class="btn btn-secondary">Следить за прогрессом</a>
+                    <div class="card-content">
+                        <div class="badges">
+                            <span class="badge badge-warning">В процессе: ~20%</span>
+                            <span class="badge">Вычитка и правки</span>
+                            <span class="badge badge-subtle">Психологический триллер</span>
+                            <span class="badge badge-subtle">18+</span>
+                        </div>
+                        <h2>Corpse Factory</h2>
+                        <div class="original-title">CORPSE FACTORY (River End Games, 2022)</div>
+                        <p>
+                            Мрачный визуальный триллер о веб-сайте «Фабрика трупов», где можно запросить смерть человека, загрузив его фото, и о серии загадочных смертей в Токио.
+                        </p>
+                        
+                        <div class="progress-box">
+                            <div class="progress-header">
+                                <span>Текущий прогресс (вычитка и правка текста)</span>
+                                <span>~20%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-bar"></div>
+                            </div>
+                        </div>
+
+                        <div class="actions">
+                            <a href="#telegram" class="btn">✈️ Следить в Telegram</a>
+                            <a href="https://store.steampowered.com/app/1614640/CORPSE_FACTORY/" target="_blank" rel="noopener" class="btn btn-secondary">Страница в Steam</a>
+                        </div>
                     </div>
+                </article>
+            </div>
+
+            <!-- ДИСКЛЕЙМЕР / ПРАВИЛА РАСПРОСТРАНЕНИЯ -->
+            <div class="disclaimer-card">
+                <div class="disclaimer-title">
+                    <span>📌</span> Важная информация о переводах
                 </div>
-            </article>
+                <p>
+                    Все переводы создаются исключительно на добровольных началах и являются <strong>полностью бесплатными</strong>. 
+                    В связи с этим убедительная просьба: <strong>при распространении моих переводов на сторонних сайтах, форумах или в каналах обязательно указывайте активную ссылку на первоисточник</strong> (этот сайт или Telegram-канал).
+                </p>
+            </div>
         </main>
 
         <footer>
-            <p>© 2026 Мои переводы. Все права на оригинальные игры принадлежат их авторам.</p>
+            <p>© 2026 Weoss. Все права на оригинальные игры принадлежат их законным авторам и издателям.</p>
         </footer>
     </div>
 
