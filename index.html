@@ -49,12 +49,12 @@
             margin-bottom: 25px;
         }
 
-        /* Стильный градиент: от чистого белого к насыщенному темно-красному */
+        /* Насыщенный градиент из оттенков красного (без белого цвета) */
         header h1 {
             font-size: 3.2rem;
             font-weight: 900;
             margin-bottom: 16px;
-            background: linear-gradient(180deg, #ffffff 25%, #fca5a5 65%, #dc2626 90%, #991b1b 100%);
+            background: linear-gradient(180deg, #ff5c5c 0%, #ef4444 35%, #b91c1c 70%, #680d0d 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -1px;
@@ -94,6 +94,20 @@
         }
 
         .notice-bar strong {
+            color: #ffffff;
+        }
+
+        /* Кликабельное слово со ссылкой на условия */
+        .license-link {
+            color: #f87171;
+            text-decoration: underline;
+            text-decoration-style: dashed;
+            text-underline-offset: 3px;
+            font-weight: 700;
+            transition: color 0.15s;
+        }
+
+        .license-link:hover {
             color: #ffffff;
         }
 
@@ -156,7 +170,7 @@
             border-color: rgba(185, 28, 28, 0.45);
         }
 
-        /* Кнопка Telegram в шапке навигации */
+        /* Кнопка Telegram */
         .btn-telegram-nav {
             display: inline-flex;
             align-items: center;
@@ -466,11 +480,11 @@
         <header>
             <h1>Weoss</h1>
 
-            <!-- Важная информация -->
+            <!-- Важная информация с кликабельной ссылкой на лицензию/правила -->
             <div class="notice-bar">
                 <span class="notice-tag">Важно</span>
                 <p>
-                    Все переводы являются <strong>бесплатными</strong>. При распространении материалов на сторонних ресурсах, <strong>пожалуйста, указывайте активную ссылку на первоисточник</strong>
+                    Все переводы являются <a href="./terms.html" class="license-link" title="Ознакомиться с правилами использования">бесплатными</a>. При распространении материалов на сторонних ресурсах, <strong>пожалуйста, указывайте активную ссылку на первоисточник</strong>
                 </p>
             </div>
         </header>
@@ -506,8 +520,9 @@
                             <h2>Corpse Factory</h2>
                             <div class="game-meta">River Crow Studio • 2022</div>
 
+                            <!-- Скорректированное описание без точки на конце -->
                             <p>
-                                Мрачный визуальный триллер о веб-сайте Corpse Factory, где можно запросить смерть человека, загрузив его фото, и о серии загадочных смертей в Токио
+                                Мрачный визуальный триллер о веб-сайте Corpse Factory, где можно запросить смерть человека, загрузив его фото и номер телефона
                             </p>
                         </div>
 
