@@ -9,17 +9,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0b0d13;
-            --card-bg: #141722;
-            --card-hover: #181c2b;
-            --accent: #7c3aed;
-            --accent-hover: #6d28d9;
+            --bg-color: #0b0a0d;
+            --card-bg: #141217;
+            --card-hover: #1c1820;
+            --accent: #b91c1c;
+            --accent-hover: #991b1b;
+            --accent-glow: rgba(185, 28, 28, 0.25);
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
-            --border: #222738;
-            --border-hover: #3b435e;
-            --badge-bg: rgba(124, 58, 237, 0.12);
-            --badge-border: rgba(124, 58, 237, 0.28);
+            --border: #292228;
+            --border-hover: #48343e;
+            --badge-bg: rgba(185, 28, 28, 0.16);
+            --badge-border: rgba(185, 28, 28, 0.38);
+            --badge-text: #fca5a5;
         }
 
         * {
@@ -47,12 +49,12 @@
             margin-bottom: 25px;
         }
 
-        /* Более глубокий и сдержанный градиент для названия */
+        /* Темно-красный глубокий градиент */
         header h1 {
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 16px;
-            background: linear-gradient(135deg, #e2e8f0 0%, #a78bfa 40%, #6366f1 80%, #4338ca 100%);
+            background: linear-gradient(135deg, #f8fafc 15%, #ef4444 55%, #991b1b 95%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -0.5px;
@@ -84,12 +86,12 @@
             transform: translateY(-1px);
         }
 
-        /* Компактный блок важной информации с вежливой просьбой */
+        /* Блок важной информации */
         .notice-bar {
             display: flex;
             align-items: center;
             gap: 12px;
-            background: rgba(20, 23, 34, 0.9);
+            background: rgba(20, 18, 23, 0.9);
             border: 1px solid var(--border);
             border-left: 3px solid var(--accent);
             border-radius: 10px;
@@ -100,9 +102,9 @@
         }
 
         .notice-tag {
-            background: rgba(124, 58, 237, 0.15);
-            color: #c4b5fd;
-            border: 1px solid rgba(124, 58, 237, 0.3);
+            background: var(--badge-bg);
+            color: var(--badge-text);
+            border: 1px solid var(--badge-border);
             padding: 2px 8px;
             border-radius: 6px;
             font-size: 0.78rem;
@@ -156,8 +158,8 @@
 
         .tab-btn.active {
             color: #ffffff;
-            background: rgba(124, 58, 237, 0.18);
-            border-color: rgba(124, 58, 237, 0.35);
+            background: rgba(185, 28, 28, 0.2);
+            border-color: rgba(185, 28, 28, 0.45);
         }
 
         .tab-content {
@@ -168,7 +170,7 @@
             display: block;
         }
 
-        /* Карточка с вертикальным постером (формат библиотек Steam) */
+        /* Карточка с вертикальным постером */
         .card {
             background-color: var(--card-bg);
             border: 1px solid var(--border);
@@ -200,8 +202,8 @@
             flex-shrink: 0;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
-            background: #191c28;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.55);
+            background: #18151c;
             margin: 0 auto;
         }
 
@@ -231,7 +233,7 @@
             flex-grow: 1;
         }
 
-        /* Теги (только жанры/особенности, без прогресса) */
+        /* Теги (только жанры/особенности) */
         .badges {
             display: flex;
             flex-wrap: wrap;
@@ -241,7 +243,7 @@
 
         .badge {
             background-color: var(--badge-bg);
-            color: #c4b5fd;
+            color: var(--badge-text);
             border: 1px solid var(--badge-border);
             padding: 3px 10px;
             border-radius: 999px;
@@ -275,10 +277,10 @@
             line-height: 1.55;
         }
 
-        /* Единый блок прогресса */
+        /* Блок прогресса */
         .progress-box {
             margin-bottom: 18px;
-            background: rgba(0, 0, 0, 0.28);
+            background: rgba(0, 0, 0, 0.32);
             padding: 12px 14px;
             border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -300,19 +302,19 @@
 
         .progress-stage::before {
             content: '●';
-            color: #f59e0b;
+            color: #ef4444;
             font-size: 0.75rem;
         }
 
         .progress-percent {
-            color: #fbbf24;
+            color: #f87171;
             font-weight: 600;
         }
 
         .progress-track {
             width: 100%;
             height: 7px;
-            background: #232838;
+            background: #231e24;
             border-radius: 999px;
             overflow: hidden;
         }
@@ -320,7 +322,7 @@
         .progress-bar {
             height: 100%;
             width: 20%;
-            background: linear-gradient(90deg, #d97706, #f59e0b);
+            background: linear-gradient(90deg, #991b1b, #dc2626);
             border-radius: 999px;
         }
 
@@ -361,7 +363,7 @@
             border-color: var(--border-hover);
         }
 
-        /* Стили для вкладки "Как производится перевод" */
+        /* Вкладка "Как производится перевод" */
         .process-section {
             background-color: var(--card-bg);
             border: 1px solid var(--border);
@@ -390,7 +392,7 @@
         }
 
         .step-item {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.22);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 10px;
             padding: 16px 20px;
@@ -401,9 +403,9 @@
         .step-number {
             width: 32px;
             height: 32px;
-            background: rgba(124, 58, 237, 0.2);
-            color: #c4b5fd;
-            border: 1px solid rgba(124, 58, 237, 0.4);
+            background: var(--badge-bg);
+            color: var(--badge-text);
+            border: 1px solid var(--badge-border);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -450,11 +452,11 @@
                 </a>
             </div>
 
-            <!-- Компактный блок важной информации с вежливой просьбой -->
+            <!-- Важная информация без точки на конце -->
             <div class="notice-bar">
                 <span class="notice-tag">Важно</span>
                 <p>
-                    Все переводы являются <strong>бесплатными</strong>. При распространении материалов на сторонних ресурсах, <strong>пожалуйста, указывайте активную ссылку на первоисточник</strong>.
+                    Все переводы являются <strong>бесплатными</strong>. При распространении материалов на сторонних ресурсах, <strong>пожалуйста, указывайте активную ссылку на первоисточник</strong>
                 </p>
             </div>
         </header>
@@ -469,30 +471,27 @@
             <!-- ВКЛАДКА 1: КАТАЛОГ -->
             <div id="tab-catalog" class="tab-content active">
                 <article class="card">
-                    <!-- Постер в пропорции 2:3 -->
                     <div class="poster-wrap">
                         <img src="./img/corpse-factory-poster.jpg" alt="Corpse Factory Poster" class="poster-img">
                     </div>
 
                     <div class="card-content">
                         <div>
-                            <!-- Только жанровые теги -->
                             <div class="badges">
                                 <span class="badge">Психологический триллер</span>
                                 <span class="badge badge-subtle">18+</span>
                             </div>
 
-                            <!-- Название игры без дублей -->
                             <h2>Corpse Factory</h2>
                             <div class="game-meta">River End Games • 2022</div>
 
+                            <!-- Описание без точки на конце -->
                             <p>
-                                Мрачный визуальный триллер о веб-сайте Corpse Factory, где можно запросить смерть человека, загрузив его фото, и о серии загадочных смертей в Токио.
+                                Мрачный визуальный триллер о веб-сайте Corpse Factory, где можно запросить смерть человека, загрузив его фото, и о серии загадочных смертей в Токио
                             </p>
                         </div>
 
                         <div>
-                            <!-- Полная информация о прогрессе собрана в одном месте -->
                             <div class="progress-box">
                                 <div class="progress-header">
                                     <span class="progress-stage">Вычитка и правки</span>
@@ -526,7 +525,7 @@
                             <div class="step-body">
                                 <h3>Техническая часть и первичный перевод</h3>
                                 <p>
-                                    В процессе работы используется <strong>ИИ в качестве компаньона</strong>. Он помогает в технической части (разбор ресурсов новеллы, работа со скриптами), а также выполняет первичный черновой перевод текста с сохранением контекста и структуры кода.
+                                    В процессе работы используется <strong>ИИ в качестве компаньона</strong>. Он помогает в технической части (разбор ресурсов новеллы, работа со скриптами), а также выполняет первичный черновой перевод текста с сохранением контекста и структуры кода
                                 </p>
                             </div>
                         </div>
@@ -536,7 +535,7 @@
                             <div class="step-body">
                                 <h3>Личная вычитка и ручная редактура</h3>
                                 <p>
-                                    После чернового этапа <strong>я лично от начала до конца читаю новеллу</strong> непосредственно в игре. В процессе прочтения я правлю и переписываю всё, что выглядит неестественно, звучит коряво или неудачно переведено, адаптируя фразы под живой человеческий язык и сохраняя характеры персонажей.
+                                    После чернового этапа <strong>я лично от начала до конца читаю новеллу</strong> непосредственно в игре. В процессе прочтения я правлю и переписываю всё, что выглядит неестественно, звучит коряво или неудачно переведено, адаптируя фразы под живой человеческий язык и стараясь сохранить характеры персонажей
                                 </p>
                             </div>
                         </div>
@@ -544,9 +543,9 @@
                         <div class="step-item">
                             <div class="step-number">3</div>
                             <div class="step-body">
-                                <h3>Тестирование и сборка патча</h3>
+                                <h3>Тестирование и подготовка патча</h3>
                                 <p>
-                                    Финальная проверка отображения текста в окне диалогов, подгонка шрифтов, отсутствие вылетов за пределы UI и упаковка патча для максимально простой установки в один клик.
+                                    Финальная проверка отображения текста в окне диалогов, подгонка шрифтов и отсутствие вылетов за пределы интерфейса. По большей части патчи представляют собой готовый архив с файлами, которые достаточно просто скопировать в папку с игрой (установщик создается только если в этом есть острая необходимость)
                                 </p>
                             </div>
                         </div>
@@ -555,23 +554,21 @@
             </div>
         </main>
 
+        <!-- Футер без точки на конце -->
         <footer>
-            <p>© 2026 Weoss Translations. Все права на оригинальные игры принадлежат их авторам и издателям.</p>
+            <p>© 2026 Weoss Translations. Все права на оригинальные игры принадлежат их авторам и издателям</p>
         </footer>
     </div>
 
     <script>
         function switchTab(tabId, buttonElement) {
-            // Скрыть все вкладки
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
-            // Деактивировать все кнопки
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
 
-            // Активировать нужную вкладку и кнопку
             document.getElementById('tab-' + tabId).classList.add('active');
             buttonElement.classList.add('active');
         }
