@@ -39,48 +39,29 @@
         .container {
             max-width: 900px;
             margin: 0 auto;
-            padding: 40px 0;
+            padding: 30px 0;
         }
 
         header {
             text-align: center;
-            margin-bottom: 46px;
-        }
-
-        .author-tag {
-            display: inline-block;
-            background: rgba(139, 92, 246, 0.12);
-            color: #c4b5fd;
-            border: 1px solid rgba(139, 92, 246, 0.25);
-            padding: 4px 14px;
-            border-radius: 999px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
+            margin-bottom: 30px;
         }
 
         header h1 {
-            font-size: 2.3rem;
+            font-size: 2.4rem;
             font-weight: 700;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             background: linear-gradient(135deg, #c4b5fd, #f472b6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-        }
-
-        header p {
-            color: var(--text-muted);
-            font-size: 1.05rem;
-            max-width: 620px;
-            margin: 0 auto 22px auto;
+            letter-spacing: -0.5px;
         }
 
         .social-links {
             display: flex;
             justify-content: center;
             gap: 12px;
+            margin-bottom: 25px;
         }
 
         .btn-social {
@@ -90,7 +71,7 @@
             background-color: #229ED9;
             color: white;
             text-decoration: none;
-            padding: 10px 22px;
+            padding: 9px 20px;
             border-radius: 10px;
             font-weight: 500;
             font-size: 0.95rem;
@@ -100,6 +81,49 @@
         .btn-social:hover {
             opacity: 0.92;
             transform: translateY(-1px);
+        }
+
+        /* Компактная плашка с важной информацией */
+        .notice-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(20, 23, 34, 0.85);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 10px;
+            padding: 12px 18px;
+            margin-bottom: 35px;
+            font-size: 0.9rem;
+            color: #d1d5db;
+        }
+
+        .notice-tag {
+            background: rgba(139, 92, 246, 0.15);
+            color: #c4b5fd;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .notice-bar p {
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .notice-bar strong {
+            color: #ffffff;
+        }
+
+        @media (max-width: 600px) {
+            .notice-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
         }
 
         .section-title {
@@ -151,7 +175,7 @@
             width: 100%;
             height: 220px;
             position: relative;
-            background: #1e2230;
+            background: #191c28;
             flex-shrink: 0;
             overflow: hidden;
         }
@@ -305,37 +329,6 @@
             border-color: var(--border-hover);
         }
 
-        /* Блок дисклеймера и правил */
-        .disclaimer-card {
-            background: linear-gradient(180deg, rgba(30, 36, 51, 0.6), rgba(20, 23, 34, 0.9));
-            border: 1px solid var(--border);
-            border-left: 4px solid var(--accent);
-            border-radius: 12px;
-            padding: 20px 24px;
-            margin-top: 40px;
-            margin-bottom: 30px;
-        }
-
-        .disclaimer-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #c4b5fd;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .disclaimer-card p {
-            color: #d1d5db;
-            font-size: 0.92rem;
-            line-height: 1.6;
-        }
-
-        .disclaimer-card p strong {
-            color: #ffffff;
-        }
-
         footer {
             text-align: center;
             margin-top: 50px;
@@ -350,13 +343,19 @@
 
     <div class="container">
         <header>
-            <span class="author-tag">Некоммерческие переводы</span>
             <h1>Weoss | Каталог новелл</h1>
-            <p>Переводы и локализации визуальных новелл от независимого энтузиаста. Без рекламы и платного доступа.</p>
             <div class="social-links">
                 <a href="#telegram" class="btn-social">
                     ✈️ Telegram-канал
                 </a>
+            </div>
+
+            <!-- Компактный блок важной информации -->
+            <div class="notice-bar">
+                <span class="notice-tag">Важно</span>
+                <p>
+                    Все переводы являются <strong>бесплатными</strong>. При распространении материалов на сторонних ресурсах обязательно указывайте <strong>активную ссылку на первоисточник</strong>.
+                </p>
             </div>
         </header>
 
@@ -367,7 +366,7 @@
                 <!-- CORPSE FACTORY -->
                 <article class="card">
                     <div class="card-img-wrap">
-                        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1614640/header.jpg" alt="CORPSE FACTORY" class="card-img">
+                        <img src="./img/corpse-factory.jpg" alt="CORPSE FACTORY" class="card-img">
                     </div>
                     <div class="card-content">
                         <div class="badges">
@@ -379,7 +378,7 @@
                         <h2>Corpse Factory</h2>
                         <div class="original-title">CORPSE FACTORY (River End Games, 2022)</div>
                         <p>
-                            Мрачный визуальный триллер о веб-сайте «Фабрика трупов», где можно запросить смерть человека, загрузив его фото, и о серии загадочных смертей в Токио.
+                            Мрачный визуальный триллер о веб-сайте Corpse Factory, где можно запросить смерть человека, загрузив его фото, и о серии загадочных смертей в Токио.
                         </p>
                         
                         <div class="progress-box">
@@ -394,26 +393,15 @@
 
                         <div class="actions">
                             <a href="#telegram" class="btn">✈️ Следить в Telegram</a>
-                            <a href="https://store.steampowered.com/app/1614640/CORPSE_FACTORY/" target="_blank" rel="noopener" class="btn btn-secondary">Страница в Steam</a>
+                            <a href="https://store.steampowered.com/app/1414250/CORPSE_FACTORY/" target="_blank" rel="noopener" class="btn btn-secondary">Страница в Steam</a>
                         </div>
                     </div>
                 </article>
             </div>
-
-            <!-- ДИСКЛЕЙМЕР / ПРАВИЛА РАСПРОСТРАНЕНИЯ -->
-            <div class="disclaimer-card">
-                <div class="disclaimer-title">
-                    <span>📌</span> Важная информация о переводах
-                </div>
-                <p>
-                    Все переводы создаются исключительно на добровольных началах и являются <strong>полностью бесплатными</strong>. 
-                    В связи с этим убедительная просьба: <strong>при распространении моих переводов на сторонних сайтах, форумах или в каналах обязательно указывайте активную ссылку на первоисточник</strong> (этот сайт или Telegram-канал).
-                </p>
-            </div>
         </main>
 
         <footer>
-            <p>© 2026 Weoss. Все права на оригинальные игры принадлежат их законным авторам и издателям.</p>
+            <p>© 2026 Weoss. Все права на оригинальные игры принадлежат их авторам и издателям.</p>
         </footer>
     </div>
 
