@@ -41,26 +41,46 @@
         .container {
             max-width: 860px;
             margin: 0 auto;
-            padding: 35px 0 60px 0;
+            padding: 30px 0 60px 0;
         }
 
-        header {
-            text-align: center;
+        /* Компактная шапка: логотип W слева, блок Важно справа */
+        .compact-header {
+            display: flex;
+            align-items: stretch;
+            gap: 12px;
             margin-bottom: 25px;
         }
 
-        /* Вертикальный высококонтрастный красный градиент (виден на каждой букве) */
-        header h1 {
-            font-size: 3.5rem;
+        .logo-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 58px;
+            min-height: 54px;
+            flex-shrink: 0;
+            background: #141217;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            text-decoration: none;
+            transition: transform 0.15s, border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .logo-box:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(230, 0, 38, 0.3);
+        }
+
+        .logo-letter {
+            font-size: 2.2rem;
             font-weight: 900;
-            margin-bottom: 16px;
+            line-height: 1;
             background: linear-gradient(180deg, #ff4351 0%, #e60026 45%, #4a0008 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: -1px;
-            display: inline-block;
-            filter: drop-shadow(0 2px 14px rgba(230, 0, 38, 0.4));
+            filter: drop-shadow(0 2px 8px rgba(230, 0, 38, 0.45));
         }
 
         /* Блок важной информации */
@@ -76,7 +96,8 @@
             font-size: 0.88rem;
             color: #d1d5db;
             text-align: left;
-            margin-top: 5px;
+            flex-grow: 1;
+            margin: 0;
         }
 
         .notice-tag {
@@ -113,7 +134,7 @@
             color: #ffffff;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 540px) {
             .notice-bar {
                 flex-direction: column;
                 align-items: flex-start;
@@ -398,7 +419,7 @@
             border-color: var(--border-hover);
         }
 
-        /* Вкладка "Как производится перевод" */
+        /* Вкладка "Как создаются переводы" */
         .process-section {
             background-color: var(--card-bg);
             border: 1px solid var(--border);
@@ -492,8 +513,11 @@
 <body>
 
     <div class="container">
-        <header>
-            <h1>Weoss</h1>
+        <!-- Компактная шапка: стильный логотип W слева, блок Важно справа -->
+        <header class="compact-header">
+            <a href="./" class="logo-box" title="Weoss">
+                <span class="logo-letter">W</span>
+            </a>
 
             <!-- Важная информация с кликабельной ссылкой на лицензию/правила -->
             <div class="notice-bar">
@@ -535,7 +559,6 @@
                             <h2>Corpse Factory</h2>
                             <div class="game-meta">River Crow Studio • 2022</div>
 
-                            <!-- Скорректированное описание без точки на конце -->
                             <p>
                                 Мрачный визуальный триллер о веб-сайте Corpse Factory, где можно запросить смерть человека, загрузив его фото и номер телефона
                             </p>
@@ -560,7 +583,7 @@
                 </article>
             </div>
 
-            <!-- ВКЛАДКА 2: КАК ПРОИЗВОДИТСЯ ПЕРЕВОД -->
+            <!-- ВКЛАДКА 2: КАК СОЗДАЮТСЯ ПЕРЕВОДЫ -->
             <div id="tab-process" class="tab-content">
                 <section class="process-section">
                     <h2>Как создаются переводы</h2>
