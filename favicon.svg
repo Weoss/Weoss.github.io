@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <!-- Градиент для буквы W -->
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ff4d5a"/>
+      <stop offset="50%" stop-color="#e60026"/>
+      <stop offset="100%" stop-color="#55030b"/>
+    </linearGradient>
+
+    <!-- Свечение буквы W -->
+    <filter id="redGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#ff2640" flood-opacity="0.85"/>
+      <feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#e60026" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Темный фон с легким скруглением и бордовой окантовкой -->
+  <rect width="64" height="64" rx="14" fill="#141217" stroke="#3b1d24" stroke-width="2"/>
+
+  <!-- Светящаяся буква W -->
+  <text 
+    x="50%" 
+    y="55%" 
+    font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
+    font-weight="900" 
+    font-size="44" 
+    fill="url(#redGrad)" 
+    filter="url(#redGlow)" 
+    text-anchor="middle" 
+    dominant-baseline="central"
+    letter-spacing="-1px">W</text>
+</svg>
