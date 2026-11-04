@@ -201,39 +201,41 @@
             border-color: rgba(185, 28, 28, 0.45);
         }
 
-        /* Кнопка Telegram: сдержанный темный винный стиль с белой иконкой */
+        /* Кнопка Telegram: сдержанный темный винный стиль с четким белым текстом */
         .btn-telegram-nav {
             display: inline-flex;
             align-items: center;
             gap: 7px;
-            background: linear-gradient(135deg, #451016 0%, #24090c 100%);
-            color: #e5e7eb;
+            background: linear-gradient(135deg, #4d1319 0%, #260a0d 100%);
+            color: #ffffff;
             text-decoration: none;
             padding: 7px 15px;
             border-radius: 8px;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 0.86rem;
-            border: 1px solid rgba(220, 38, 38, 0.3);
+            letter-spacing: 0.2px;
+            border: 1px solid rgba(220, 38, 38, 0.45);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-            transition: transform 0.15s, box-shadow 0.2s, background 0.2s, border-color 0.2s, color 0.2s;
+            transition: transform 0.15s, box-shadow 0.2s, background 0.2s, border-color 0.2s;
             white-space: nowrap;
         }
 
         .btn-telegram-nav svg {
-            color: #d1d5db;
-            transition: color 0.2s;
+            color: #ffffff;
+            stroke: #ffffff;
+            opacity: 0.95;
+            transition: transform 0.2s;
         }
 
         .btn-telegram-nav:hover {
-            background: linear-gradient(135deg, #5c141c 0%, #300c10 100%);
-            border-color: rgba(239, 68, 68, 0.55);
-            color: #ffffff;
-            box-shadow: 0 4px 14px rgba(185, 28, 28, 0.25);
+            background: linear-gradient(135deg, #611820 0%, #330c10 100%);
+            border-color: rgba(239, 68, 68, 0.65);
+            box-shadow: 0 4px 14px rgba(185, 28, 28, 0.3);
             transform: translateY(-1px);
         }
 
         .btn-telegram-nav:hover svg {
-            color: #ffffff;
+            transform: translateX(1px);
         }
 
         @media (max-width: 540px) {
@@ -583,7 +585,7 @@
                             <div class="game-meta">River Crow Studio • 2022</div>
 
                             <p>
-                                Мрачная история о веб-сайте <span style="color: #7e67b8; font-weight: 600;">«Corpse Girl»</span>, где можно заказать смерть любого человека. Все, что для этого потребуется, — номер телефона и фото жертвы
+                                Мрачная история о веб-сайте <span style="color: #7e67b8; font-weight: 600;">«Corpse Girl»</span>, где можно заказать смерть любого человека. Все, что для этого нужно — номер телефона и фотография жертвы
                             </p>
                         </div>
 
@@ -591,10 +593,10 @@
                             <div class="progress-box">
                                 <div class="progress-header">
                                     <span class="progress-stage">Вычитка и правки</span>
-                                    <span class="progress-percent">~20%</span>
+                                    <span class="progress-percent">~13.7%</span>
                                 </div>
                                 <div class="progress-track">
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: 13.7%;"></div>
                                 </div>
                             </div>
 
