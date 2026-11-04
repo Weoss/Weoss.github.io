@@ -19,16 +19,23 @@
             --bg-color: #0b0a0d;
             --card-bg: #141217;
             --card-hover: #1c1820;
-            --accent: #b91c1c;
-            --accent-hover: #991b1b;
-            --accent-glow: rgba(185, 28, 28, 0.25);
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
             --border: #292228;
             --border-hover: #48343e;
-            --badge-bg: rgba(185, 28, 28, 0.16);
-            --badge-border: rgba(185, 28, 28, 0.38);
-            --badge-text: #fca5a5;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+
+            /* Единая синхронизированная палитра красных тонов */
+            --red-text: #fca5a5;
+            --red-bright: #ef4444;
+            --red-primary: #dc2626;
+            --red-dark: #991b1b;
+            --red-wine: #4d1319;
+            --red-wine-dark: #260a0d;
+            --red-wine-hover: #611820;
+            --red-tint: rgba(220, 38, 38, 0.16);
+            --red-border: rgba(220, 38, 38, 0.38);
+            --red-border-strong: rgba(220, 38, 38, 0.6);
+            --red-glow: rgba(220, 38, 38, 0.25);
         }
 
         * {
@@ -67,24 +74,24 @@
             min-height: 54px;
             flex-shrink: 0;
             background: #141217;
-            border: 1px solid rgba(220, 38, 38, 0.45);
+            border: 1px solid var(--red-border);
             border-radius: 10px;
             text-decoration: none;
-            box-shadow: 0 0 16px rgba(230, 0, 38, 0.22), inset 0 0 10px rgba(230, 0, 38, 0.1);
+            box-shadow: 0 0 16px var(--red-glow), inset 0 0 10px rgba(220, 38, 38, 0.12);
             transition: transform 0.15s, border-color 0.2s, box-shadow 0.2s;
         }
 
         .logo-box:hover {
-            border-color: rgba(239, 68, 68, 0.7);
+            border-color: var(--red-border-strong);
             transform: translateY(-1px);
-            box-shadow: 0 0 24px rgba(230, 0, 38, 0.45), inset 0 0 14px rgba(230, 0, 38, 0.2);
+            box-shadow: 0 0 24px rgba(220, 38, 38, 0.45), inset 0 0 14px rgba(220, 38, 38, 0.2);
         }
 
         .logo-letter {
             font-size: 2.2rem;
             font-weight: 900;
             line-height: 1;
-            background: linear-gradient(180deg, #ff4351 0%, #e60026 45%, #4a0008 100%);
+            background: linear-gradient(180deg, var(--red-bright) 0%, var(--red-primary) 50%, #45080c 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -98,7 +105,7 @@
             gap: 12px;
             background: rgba(20, 18, 23, 0.9);
             border: 1px solid var(--border);
-            border-left: 3px solid var(--accent);
+            border-left: 3px solid var(--red-primary);
             border-radius: 10px;
             padding: 12px 18px;
             font-size: 0.88rem;
@@ -109,9 +116,9 @@
         }
 
         .notice-tag {
-            background: var(--badge-bg);
-            color: var(--badge-text);
-            border: 1px solid var(--badge-border);
+            background: var(--red-tint);
+            color: var(--red-text);
+            border: 1px solid var(--red-border);
             padding: 2px 8px;
             border-radius: 6px;
             font-size: 0.78rem;
@@ -130,7 +137,7 @@
 
         /* Кликабельное слово со ссылкой на условия */
         .license-link {
-            color: #f87171;
+            color: var(--red-text);
             text-decoration: underline;
             text-decoration-style: dashed;
             text-underline-offset: 3px;
@@ -197,8 +204,8 @@
 
         .tab-btn.active {
             color: #ffffff;
-            background: rgba(185, 28, 28, 0.2);
-            border-color: rgba(185, 28, 28, 0.45);
+            background: var(--red-tint);
+            border-color: var(--red-border);
         }
 
         /* Кнопка Telegram: сдержанный темный винный стиль с четким белым текстом */
@@ -206,7 +213,7 @@
             display: inline-flex;
             align-items: center;
             gap: 7px;
-            background: linear-gradient(135deg, #4d1319 0%, #260a0d 100%);
+            background: linear-gradient(135deg, var(--red-wine) 0%, var(--red-wine-dark) 100%);
             color: #ffffff;
             text-decoration: none;
             padding: 7px 15px;
@@ -214,7 +221,7 @@
             font-weight: 600;
             font-size: 0.86rem;
             letter-spacing: 0.2px;
-            border: 1px solid rgba(220, 38, 38, 0.45);
+            border: 1px solid var(--red-border);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
             transition: transform 0.15s, box-shadow 0.2s, background 0.2s, border-color 0.2s;
             white-space: nowrap;
@@ -228,9 +235,9 @@
         }
 
         .btn-telegram-nav:hover {
-            background: linear-gradient(135deg, #611820 0%, #330c10 100%);
-            border-color: rgba(239, 68, 68, 0.65);
-            box-shadow: 0 4px 14px rgba(185, 28, 28, 0.3);
+            background: linear-gradient(135deg, var(--red-wine-hover) 0%, var(--red-wine-dark) 100%);
+            border-color: var(--red-border-strong);
+            box-shadow: 0 4px 14px var(--red-glow);
             transform: translateY(-1px);
         }
 
@@ -388,12 +395,12 @@
 
         .progress-stage::before {
             content: '●';
-            color: #ef4444;
+            color: var(--red-bright);
             font-size: 0.75rem;
         }
 
         .progress-percent {
-            color: #f87171;
+            color: var(--red-text);
             font-weight: 600;
         }
 
@@ -408,7 +415,7 @@
         .progress-bar {
             height: 100%;
             width: 20%;
-            background: linear-gradient(90deg, #991b1b, #dc2626);
+            background: linear-gradient(90deg, var(--red-dark), var(--red-primary));
             border-radius: 999px;
         }
 
@@ -480,9 +487,9 @@
         .step-number {
             width: 32px;
             height: 32px;
-            background: var(--badge-bg);
-            color: var(--badge-text);
-            border: 1px solid var(--badge-border);
+            background: var(--red-tint);
+            color: var(--red-text);
+            border: 1px solid var(--red-border);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -526,8 +533,8 @@
         }
 
         .footer-link:hover {
-            color: #f87171;
-            text-decoration-color: #f87171;
+            color: var(--red-text);
+            text-decoration-color: var(--red-text);
         }
     </style>
 </head>
@@ -576,11 +583,6 @@
 
                     <div class="card-content">
                         <div>
-                            <div class="badges">
-                                <span class="badge">Психологический триллер</span>
-                                <span class="badge badge-subtle">18+</span>
-                            </div>
-
                             <h2>Corpse Factory</h2>
                             <div class="game-meta">River Crow Studio • 2022</div>
 

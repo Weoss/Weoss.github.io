@@ -18,15 +18,23 @@
             --bg-color: #0b0a0d;
             --card-bg: #141217;
             --card-hover: #1c1820;
-            --accent: #b91c1c;
-            --accent-hover: #991b1b;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
             --border: #292228;
             --border-hover: #48343e;
-            --badge-bg: rgba(185, 28, 28, 0.16);
-            --badge-border: rgba(185, 28, 28, 0.38);
-            --badge-text: #fca5a5;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+
+            /* Единая синхронизированная палитра красных тонов */
+            --red-text: #fca5a5;
+            --red-bright: #ef4444;
+            --red-primary: #dc2626;
+            --red-dark: #991b1b;
+            --red-wine: #4d1319;
+            --red-wine-dark: #260a0d;
+            --red-wine-hover: #611820;
+            --red-tint: rgba(220, 38, 38, 0.16);
+            --red-border: rgba(220, 38, 38, 0.38);
+            --red-border-strong: rgba(220, 38, 38, 0.6);
+            --red-glow: rgba(220, 38, 38, 0.25);
         }
 
         * {
@@ -96,7 +104,7 @@
             display: inline-flex;
             align-items: center;
             gap: 7px;
-            background: linear-gradient(135deg, #4d1319 0%, #260a0d 100%);
+            background: linear-gradient(135deg, var(--red-wine) 0%, var(--red-wine-dark) 100%);
             color: #ffffff;
             text-decoration: none;
             padding: 7px 15px;
@@ -104,7 +112,7 @@
             font-weight: 600;
             font-size: 0.86rem;
             letter-spacing: 0.2px;
-            border: 1px solid rgba(220, 38, 38, 0.45);
+            border: 1px solid var(--red-border);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
             transition: transform 0.15s, box-shadow 0.2s, background 0.2s, border-color 0.2s;
             white-space: nowrap;
@@ -118,9 +126,9 @@
         }
 
         .btn-telegram-nav:hover {
-            background: linear-gradient(135deg, #611820 0%, #330c10 100%);
-            border-color: rgba(239, 68, 68, 0.65);
-            box-shadow: 0 4px 14px rgba(185, 28, 28, 0.3);
+            background: linear-gradient(135deg, var(--red-wine-hover) 0%, var(--red-wine-dark) 100%);
+            border-color: var(--red-border-strong);
+            box-shadow: 0 4px 14px var(--red-glow);
             transform: translateY(-1px);
         }
 
@@ -190,7 +198,7 @@
         }
 
         .rule-title span {
-            color: #ef4444;
+            color: var(--red-bright);
         }
 
         .rule-block p {
@@ -209,16 +217,16 @@
         }
 
         .danger-box {
-            background: rgba(185, 28, 28, 0.12);
-            border: 1px solid rgba(185, 28, 28, 0.35);
-            border-left: 4px solid var(--accent);
+            background: var(--red-tint);
+            border: 1px solid var(--red-border);
+            border-left: 4px solid var(--red-primary);
             border-radius: 8px;
             padding: 14px 18px;
             margin-top: 12px;
         }
 
         .danger-box p {
-            color: #fca5a5;
+            color: var(--red-text);
             font-size: 0.9rem;
             line-height: 1.55;
             margin: 0;
@@ -269,8 +277,8 @@
         }
 
         .footer-link:hover {
-            color: #f87171;
-            text-decoration-color: #f87171;
+            color: var(--red-text);
+            text-decoration-color: var(--red-text);
         }
     </style>
 </head>
