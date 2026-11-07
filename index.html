@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weoss | Каталог новелл</title>
+    <title>Weoss | Переводы новелл</title>
     <link rel="icon" type="image/svg+xml" href="./favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,8 +61,8 @@
         /* Компактная шапка: логотип W слева, блок Важно справа */
         .compact-header {
             display: flex;
-            align-items: stretch;
-            gap: 12px;
+            align-items: center;
+            gap: 16px;
             margin-bottom: 25px;
         }
 
@@ -70,25 +70,22 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 58px;
-            min-height: 54px;
+            padding: 0 4px;
             flex-shrink: 0;
-            background: #141217;
-            border: 1px solid var(--red-border);
-            border-radius: 10px;
             text-decoration: none;
-            box-shadow: 0 0 16px var(--red-glow), inset 0 0 10px rgba(220, 38, 38, 0.12);
-            transition: transform 0.15s, border-color 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s ease;
         }
 
         .logo-box:hover {
-            border-color: var(--red-border-strong);
-            transform: translateY(-1px);
-            box-shadow: 0 0 24px rgba(220, 38, 38, 0.45), inset 0 0 14px rgba(220, 38, 38, 0.2);
+            transform: scale(1.08);
+        }
+
+        .logo-box:hover .logo-letter {
+            filter: drop-shadow(0 0 16px rgba(239, 68, 68, 0.7));
         }
 
         .logo-letter {
-            font-size: 2.2rem;
+            font-size: 2.6rem;
             font-weight: 900;
             line-height: 1;
             background: linear-gradient(180deg, var(--red-bright) 0%, var(--red-primary) 50%, #45080c 100%);
@@ -96,6 +93,8 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             filter: drop-shadow(0 2px 8px rgba(230, 0, 38, 0.45));
+            user-select: none;
+            transition: filter 0.2s ease;
         }
 
         /* Блок важной информации */
@@ -871,7 +870,6 @@
             <!-- ВКЛАДКА 2: КАК СОЗДАЮТСЯ ПЕРЕВОДЫ -->
             <div id="tab-process" class="tab-content">
                 <section class="process-section">
-                    <h2>Как создаются переводы</h2>
                     <p class="process-intro">
                         Я занимаюсь переводами в одиночку, сочетая современные технологии для рутины и тщательную ручную работу для литературного качества:
                     </p>
