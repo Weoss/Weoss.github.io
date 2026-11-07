@@ -779,12 +779,16 @@
             color: var(--red-text);
             border: 1px solid var(--red-border);
             border-radius: 50%;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.92rem;
+            line-height: 1;
+            padding-bottom: 1px;
             flex-shrink: 0;
+            user-select: none;
+            box-sizing: border-box;
         }
 
         .step-body h3 {
@@ -870,10 +874,6 @@
             <!-- ВКЛАДКА 2: КАК СОЗДАЮТСЯ ПЕРЕВОДЫ -->
             <div id="tab-process" class="tab-content">
                 <section class="process-section">
-                    <p class="process-intro">
-                        Я занимаюсь переводами в одиночку, сочетая современные технологии для рутины и тщательную ручную работу для литературного качества:
-                    </p>
-
                     <div class="steps-list">
                         <div class="step-item">
                             <div class="step-number">1</div>
