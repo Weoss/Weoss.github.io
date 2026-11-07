@@ -25,7 +25,7 @@
             --text-muted: #9ca3af;
 
             /* Единая синхронизированная палитра красных тонов */
-            --red-text: #fca5a5;
+            --red-text: #ff4d4d;
             --red-bright: #ef4444;
             --red-primary: #dc2626;
             --red-dark: #991b1b;
@@ -370,6 +370,43 @@
             line-height: 1.55;
         }
 
+        /* Список карточек каталога */
+        .catalog-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Пресеты статусов */
+        .status-translated {
+            --status-dot: #10b981;
+            --status-text: #34d399;
+            --status-bar: linear-gradient(90deg, #059669, #10b981);
+            --status-glow: rgba(16, 185, 129, 0.4);
+        }
+
+        .status-tech {
+            --status-dot: #38bdf8;
+            --status-text: #38bdf8;
+            --status-bar: linear-gradient(90deg, #0284c7, #38bdf8);
+            --status-glow: rgba(56, 189, 248, 0.4);
+        }
+
+        .status-proofreading {
+            --status-dot: #f59e0b;
+            --status-text: #fbbf24;
+            --status-bar: linear-gradient(90deg, #d97706, #f59e0b);
+            --status-glow: rgba(245, 158, 11, 0.4);
+        }
+
+        .status-in-progress,
+        .status-default {
+            --status-dot: var(--red-bright);
+            --status-text: var(--red-text);
+            --status-bar: linear-gradient(90deg, var(--red-dark), var(--red-primary));
+            --status-glow: var(--red-glow);
+        }
+
         /* Блок прогресса */
         .progress-box {
             margin-bottom: 18px;
@@ -395,13 +432,18 @@
 
         .progress-stage::before {
             content: '●';
-            color: var(--red-bright);
+            color: var(--status-dot, var(--red-bright));
             font-size: 0.75rem;
+            filter: drop-shadow(0 0 5px var(--status-glow, var(--red-glow)));
         }
 
         .progress-percent {
-            color: var(--red-text);
+            color: var(--status-text, var(--red-text));
             font-weight: 600;
+        }
+
+        .progress-percent.is-nodata {
+            color: var(--red-text) !important;
         }
 
         .progress-track {
@@ -414,9 +456,39 @@
 
         .progress-bar {
             height: 100%;
-            width: 20%;
-            background: linear-gradient(90deg, var(--red-dark), var(--red-primary));
+            width: 0%;
+            background: var(--status-bar, linear-gradient(90deg, var(--red-dark), var(--red-primary)));
             border-radius: 999px;
+            transition: width 0.4s ease;
+        }
+
+        /* Зебра для 'no data': два цвета (прозрачный + красный) на всю ширину */
+        .progress-bar.is-nodata {
+            width: 100% !important;
+            background: repeating-linear-gradient(
+                -45deg,
+                rgba(220, 38, 38, 0.85) 0,
+                rgba(220, 38, 38, 0.85) 10px,
+                transparent 10px,
+                transparent 20px
+            ) !important;
+            background-size: 28px 28px;
+            animation: zebraStripe 1.8s linear infinite;
+        }
+
+        @keyframes zebraStripe {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 28px 0;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .progress-bar.is-nodata {
+                animation: none;
+            }
         }
 
         .actions {
@@ -424,6 +496,130 @@
             flex-wrap: wrap;
             gap: 10px;
             align-items: center;
+        }
+
+        /* Кнопка "Скачать" и выпадающий список версий */
+        .download-dropdown-wrap {
+            position: relative;
+            display: inline-block;
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            background: linear-gradient(135deg, var(--red-bright) 0%, var(--red-primary) 50%, var(--red-dark) 100%);
+            border: 1px solid var(--red-border-strong);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.88rem;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4), 0 0 12px var(--red-glow);
+            transition: transform 0.15s, box-shadow 0.2s, background 0.2s, border-color 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(220, 38, 38, 0.45);
+            border-color: #ff6b6b;
+        }
+
+        .btn-download svg {
+            flex-shrink: 0;
+        }
+
+        .btn-download .chevron-icon {
+            transition: transform 0.2s ease;
+            opacity: 0.9;
+        }
+
+        .download-dropdown-wrap.open .btn-download .chevron-icon {
+            transform: rotate(180deg);
+        }
+
+        .download-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            min-width: 250px;
+            max-width: calc(100vw - 40px);
+            background: #18151c;
+            border: 1px solid var(--border-hover);
+            border-radius: 10px;
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.75), 0 0 18px rgba(0, 0, 0, 0.6);
+            padding: 6px;
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            z-index: 50;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            animation: dropdownFadeIn 0.15s ease-out;
+        }
+
+        @keyframes dropdownFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-4px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .download-dropdown-wrap.open .download-dropdown-menu {
+            display: flex;
+        }
+
+        .download-dropdown-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 9px 12px;
+            border-radius: 6px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.86rem;
+            transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid transparent;
+        }
+
+        .download-dropdown-item:hover {
+            background: var(--red-tint);
+            border-color: var(--red-border);
+            color: #ffffff;
+        }
+
+        .download-dropdown-item .item-version {
+            font-weight: 600;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .download-dropdown-item .item-version svg {
+            color: var(--red-text);
+            flex-shrink: 0;
+        }
+
+        .download-dropdown-item .item-date {
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .download-dropdown-item:hover .item-date {
+            color: #e5e7eb;
         }
 
         .btn-secondary {
@@ -445,6 +641,99 @@
         .btn-secondary:hover {
             background-color: rgba(255, 255, 255, 0.05);
             border-color: var(--border-hover);
+        }
+
+        /* Состояния каталога: загрузка, ошибка, пусто */
+        .catalog-state-box {
+            background: var(--card-bg);
+            border: 1px dashed var(--border);
+            border-radius: 14px;
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .catalog-state-box p {
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+
+        .catalog-state-box .btn-retry {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--red-tint);
+            border: 1px solid var(--red-border);
+            color: var(--red-text);
+            padding: 7px 16px;
+            border-radius: 8px;
+            font-size: 0.86rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+            font-family: inherit;
+        }
+
+        .catalog-state-box .btn-retry:hover {
+            background: rgba(220, 38, 38, 0.28);
+            color: #ffffff;
+        }
+
+        .skeleton-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        @media (min-width: 640px) {
+            .skeleton-card {
+                flex-direction: row;
+                align-items: stretch;
+            }
+        }
+
+        .skeleton-poster {
+            width: 170px;
+            aspect-ratio: 2 / 3;
+            background: #18151c;
+            border-radius: 10px;
+            animation: skeletonPulse 1.5s ease-in-out infinite;
+            margin: 0 auto;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 640px) {
+            .skeleton-poster {
+                margin: 0;
+                width: 180px;
+            }
+        }
+
+        .skeleton-lines {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
+            gap: 15px;
+        }
+
+        .skeleton-line {
+            background: #1c1820;
+            border-radius: 6px;
+            animation: skeletonPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes skeletonPulse {
+            0%, 100% {
+                opacity: 0.4;
+            }
+            50% {
+                opacity: 0.85;
+            }
         }
 
         /* Вкладка "Как создаются переводы" */
@@ -576,38 +865,7 @@
         <main>
             <!-- ВКЛАДКА 1: КАТАЛОГ -->
             <div id="tab-catalog" class="tab-content active">
-                <article class="card">
-                    <div class="poster-wrap">
-                        <img src="./img/corpse-factory-poster.jpg" alt="Corpse Factory Poster" class="poster-img">
-                    </div>
-
-                    <div class="card-content">
-                        <div>
-                            <h2>Corpse Factory</h2>
-                            <div class="game-meta">River Crow Studio • 2022</div>
-
-                            <p>
-                                Мрачная история о веб-сайте <span style="color: #7e67b8; font-weight: 600;">«Corpse Girl»</span>, где можно заказать смерть любого человека. Все, что для этого нужно — номер телефона и фотография жертвы
-                            </p>
-                        </div>
-
-                        <div>
-                            <div class="progress-box">
-                                <div class="progress-header">
-                                    <span class="progress-stage">Вычитка и правки</span>
-                                    <span class="progress-percent">24.80%</span>
-                                </div>
-                                <div class="progress-track">
-                                    <div class="progress-bar" style="width: 24.80%;"></div>
-                                </div>
-                            </div>
-
-                            <div class="actions">
-                                <a href="https://store.steampowered.com/app/1414250/CORPSE_FACTORY/" target="_blank" rel="noopener" class="btn-secondary">Страница в Steam</a>
-                            </div>
-                        </div>
-                    </div>
-                </article>
+                <div id="catalog-list" class="catalog-list"></div>
             </div>
 
             <!-- ВКЛАДКА 2: КАК СОЗДАЮТСЯ ПЕРЕВОДЫ -->
@@ -670,8 +928,316 @@
                 btn.classList.remove('active');
             });
 
-            document.getElementById('tab-' + tabId).classList.add('active');
-            buttonElement.classList.add('active');
+            const targetTab = document.getElementById('tab-' + tabId);
+            if (targetTab) targetTab.classList.add('active');
+            if (buttonElement) buttonElement.classList.add('active');
+        }
+
+        // Нормализация ссылок на постеры (поддержка GitHub blob, raw, относительных и внешних URL)
+        function normalizePosterUrl(url) {
+            if (!url || typeof url !== 'string') return '';
+            const trimmed = url.trim();
+            if (!trimmed) return '';
+
+            // Преобразование blob URL гитхаба
+            // https://github.com/Weoss/Weoss.github.io/blob/main/img/poster.jpg -> ./img/poster.jpg
+            if (trimmed.includes('github.com/') && trimmed.includes('/blob/')) {
+                const match = trimmed.match(/\/blob\/[^/]+\/(.+)$/);
+                if (match && match[1]) {
+                    return './' + match[1];
+                }
+                return trimmed
+                    .replace('https://github.com/', 'https://raw.githubusercontent.com/')
+                    .replace('http://github.com/', 'https://raw.githubusercontent.com/')
+                    .replace('/blob/', '/');
+            }
+
+            if (trimmed.startsWith('./') || trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+                return trimmed;
+            }
+
+            if (trimmed.startsWith('img/')) {
+                return './' + trimmed;
+            }
+
+            return trimmed;
+        }
+
+        function escapeHtml(str) {
+            if (str === null || str === undefined) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        // Конфигурация статусов в соответствии с согласованной палитрой:
+        // - Переведено: зеленый (#10b981)
+        // - Техническая часть: синий/голубой (#38bdf8)
+        // - Вычитка и редактура: янтарный/теплый оранжевый (#f59e0b)
+        // - В работе и любые другие свои варианты: дефолтный красный (#ef4444 / #ff4d4d)
+        function getStatusConfig(status) {
+            const s = (status || '').trim();
+            switch (s) {
+                case 'Переведено':
+                    return {
+                        className: 'status-translated',
+                        label: 'Переведено'
+                    };
+                case 'Техническая часть':
+                    return {
+                        className: 'status-tech',
+                        label: 'Техническая часть'
+                    };
+                case 'Вычитка и редактура':
+                    return {
+                        className: 'status-proofreading',
+                        label: 'Вычитка и редактура'
+                    };
+                case 'В работе':
+                    return {
+                        className: 'status-in-progress',
+                        label: 'В работе'
+                    };
+                default:
+                    return {
+                        className: 'status-default',
+                        label: s || 'В работе'
+                    };
+            }
+        }
+
+        // Разбор процента выполнения
+        function parseProgress(statusPercent) {
+            if (statusPercent === null || statusPercent === undefined) {
+                return { isNoData: true, percentText: '??.??', width: 100 };
+            }
+            const str = String(statusPercent).trim();
+            const lower = str.toLowerCase();
+            if (!str || lower === 'no data' || lower === 'none' || lower === 'null') {
+                return { isNoData: true, percentText: '??.??', width: 100 };
+            }
+
+            const num = parseFloat(str.replace('%', '').trim());
+            if (isNaN(num)) {
+                return { isNoData: true, percentText: '??.??', width: 100 };
+            }
+
+            const clamped = Math.min(100, Math.max(0, num));
+            const formatted = str.endsWith('%') ? str : `${num}%`;
+            return {
+                isNoData: false,
+                percentText: formatted,
+                width: clamped
+            };
+        }
+
+        // Рендер карточки тайтла
+        function renderCard(item) {
+            const posterSrc = normalizePosterUrl(item.poster);
+            const titleEscaped = escapeHtml(item.title || 'Без названия');
+
+            // Метаданные (Разработчик • Год)
+            const metaParts = [];
+            if (item.developer) metaParts.push(escapeHtml(item.developer));
+            if (item.year) metaParts.push(escapeHtml(String(item.year)));
+            const metaText = metaParts.join(' • ');
+
+            // Статус и прогресс
+            const statusCfg = getStatusConfig(item.status);
+            const progress = parseProgress(item.statusPercent);
+
+            // Релизы и кнопка "Скачать"
+            // ВАЖНО: Если ни одного релиза нет, даже если статус "Переведено" — кнопку Скачать не добавляем
+            const releases = Array.isArray(item.releases) ? item.releases : [];
+            let downloadBtnHtml = '';
+            if (releases.length > 0) {
+                const releaseItemsHtml = releases.map(rel => {
+                    const name = escapeHtml(rel.name || rel.version || 'Версия');
+                    const date = escapeHtml(rel.date || '');
+                    const url = (rel.downloadUrl || rel.url || '#').trim();
+                    return `
+                        <a href="${escapeHtml(url)}" target="_blank" rel="noopener" class="download-dropdown-item">
+                            <span class="item-version">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                <span>${name}</span>
+                            </span>
+                            ${date ? `<span class="item-date">${date}</span>` : ''}
+                        </a>
+                    `;
+                }).join('');
+
+                downloadBtnHtml = `
+                    <div class="download-dropdown-wrap">
+                        <button type="button" class="btn-download" aria-expanded="false" title="Скачать перевод">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            <span>Скачать</span>
+                            <svg class="chevron-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </button>
+                        <div class="download-dropdown-menu">
+                            ${releaseItemsHtml}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Кнопка Steam на основе steamAppId
+            let steamBtnHtml = '';
+            const steamId = (item.steamAppId || item.appId || '').toString().trim();
+            if (steamId) {
+                const steamUrl = `https://store.steampowered.com/app/${encodeURIComponent(steamId)}/`;
+                steamBtnHtml = `
+                    <a href="${steamUrl}" target="_blank" rel="noopener" class="btn-secondary">
+                        Страница в Steam
+                    </a>
+                `;
+            }
+
+            const actionsHtml = (downloadBtnHtml || steamBtnHtml) ? `
+                <div class="actions">
+                    ${downloadBtnHtml}
+                    ${steamBtnHtml}
+                </div>
+            ` : '';
+
+            // Описание (поддерживает встроенную стилизацию, например теги span для Corpse Girl)
+            const descHtml = item.description ? `<p>${item.description}</p>` : '';
+
+            return `
+                <article class="card">
+                    <div class="poster-wrap">
+                        <img src="${escapeHtml(posterSrc)}" alt="${titleEscaped} Poster" class="poster-img" loading="lazy" onerror="this.onerror=null; this.src='./favicon.svg';">
+                    </div>
+
+                    <div class="card-content">
+                        <div>
+                            <h2>${titleEscaped}</h2>
+                            ${metaText ? `<div class="game-meta">${metaText}</div>` : ''}
+                            ${descHtml}
+                        </div>
+
+                        <div>
+                            <div class="progress-box ${statusCfg.className}">
+                                <div class="progress-header">
+                                    <span class="progress-stage">${statusCfg.label}</span>
+                                    <span class="progress-percent ${progress.isNoData ? 'is-nodata' : ''}">${progress.percentText}</span>
+                                </div>
+                                <div class="progress-track">
+                                    <div class="progress-bar ${progress.isNoData ? 'is-nodata' : ''}" style="width: ${progress.width}%;"></div>
+                                </div>
+                            </div>
+
+                            ${actionsHtml}
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        // Загрузка каталога из JSON файла
+        async function loadCatalog() {
+            const container = document.getElementById('catalog-list');
+            if (!container) return;
+
+            // Скелетон при первичной загрузке
+            container.innerHTML = `
+                <div class="skeleton-card">
+                    <div class="skeleton-poster"></div>
+                    <div class="skeleton-lines">
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <div class="skeleton-line" style="height: 24px; width: 45%;"></div>
+                            <div class="skeleton-line" style="height: 14px; width: 25%;"></div>
+                            <div class="skeleton-line" style="height: 48px; width: 90%; margin-top: 10px;"></div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <div class="skeleton-line" style="height: 40px; width: 100%;"></div>
+                            <div class="skeleton-line" style="height: 36px; width: 150px;"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            try {
+                // Timestamp предотвращает отдачу устаревшего кэша браузером
+                const response = await fetch('./titles_data.json?v=' + Date.now());
+                if (!response.ok) {
+                    throw new Error('HTTP ' + response.status);
+                }
+                const data = await response.json();
+
+                if (!Array.isArray(data) || data.length === 0) {
+                    container.innerHTML = `
+                        <div class="catalog-state-box">
+                            <p>В каталоге пока нет тайтлов.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = data.map(item => renderCard(item)).join('');
+            } catch (err) {
+                console.error('Ошибка загрузки titles_data.json:', err);
+                container.innerHTML = `
+                    <div class="catalog-state-box">
+                        <p>Не удалось загрузить данные каталога.</p>
+                        <button type="button" class="btn-retry" onclick="loadCatalog()">
+                            Повторить попытку
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // Управление выпадающими списками кнопки "Скачать"
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('.btn-download');
+            const clickedWrap = btn ? btn.closest('.download-dropdown-wrap') : null;
+
+            // Закрываем все открытые списки, кроме того, по которому только что кликнули
+            document.querySelectorAll('.download-dropdown-wrap.open').forEach(wrap => {
+                if (wrap !== clickedWrap) {
+                    wrap.classList.remove('open');
+                    const b = wrap.querySelector('.btn-download');
+                    if (b) b.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // Переключаем меню для кликнутой кнопки
+            if (clickedWrap) {
+                e.stopPropagation();
+                const isOpen = clickedWrap.classList.toggle('open');
+                btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            }
+        });
+
+        // Закрытие выпадающих списков по нажатию на клавишу Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.download-dropdown-wrap.open').forEach(wrap => {
+                    wrap.classList.remove('open');
+                    const b = wrap.querySelector('.btn-download');
+                    if (b) b.setAttribute('aria-expanded', 'false');
+                });
+            }
+        });
+
+        // Запуск загрузки каталога
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadCatalog);
+        } else {
+            loadCatalog();
         }
     </script>
 </body>
