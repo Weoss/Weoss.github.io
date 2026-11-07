@@ -785,10 +785,15 @@
             font-weight: 700;
             font-size: 0.92rem;
             line-height: 1;
-            padding-bottom: 1px;
             flex-shrink: 0;
             user-select: none;
             box-sizing: border-box;
+        }
+
+        .step-number span {
+            display: inline-block;
+            line-height: 1;
+            transform: translateY(1.5px);
         }
 
         .step-body h3 {
@@ -876,7 +881,7 @@
                 <section class="process-section">
                     <div class="steps-list">
                         <div class="step-item">
-                            <div class="step-number">1</div>
+                            <div class="step-number"><span>1</span></div>
                             <div class="step-body">
                                 <h3>Техническая часть и первичный перевод</h3>
                                 <p>
@@ -886,7 +891,7 @@
                         </div>
 
                         <div class="step-item">
-                            <div class="step-number">2</div>
+                            <div class="step-number"><span>2</span></div>
                             <div class="step-body">
                                 <h3>Личная вычитка и ручная редактура</h3>
                                 <p>
@@ -896,7 +901,7 @@
                         </div>
 
                         <div class="step-item">
-                            <div class="step-number">3</div>
+                            <div class="step-number"><span>3</span></div>
                             <div class="step-body">
                                 <h3>Тестирование и подготовка патча</h3>
                                 <p>
