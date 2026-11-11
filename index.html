@@ -841,22 +841,16 @@
             color: var(--text-muted);
         }
 
-        /* Поле контакта с чекбоксом Анонимно */
-        .contact-header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-        }
-
+        /* Кастомный чекбокс под тему сайта */
         .anon-checkbox-label {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            font-size: 0.8rem;
+            gap: 8px;
+            font-size: 0.83rem;
             color: var(--text-muted);
             cursor: pointer;
             user-select: none;
+            margin-top: 5px;
             transition: color 0.15s;
         }
 
@@ -865,10 +859,55 @@
         }
 
         .anon-checkbox-label input[type="checkbox"] {
-            accent-color: var(--red-primary);
-            width: 14px;
-            height: 14px;
-            cursor: pointer;
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+            pointer-events: none;
+        }
+
+        .custom-check {
+            width: 17px;
+            height: 17px;
+            background-color: #0d0b10;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.15s ease;
+        }
+
+        .anon-checkbox-label:hover .custom-check {
+            border-color: var(--border-hover);
+            background-color: #141217;
+        }
+
+        .custom-check::after {
+            content: '';
+            width: 4px;
+            height: 8px;
+            border: solid #ffffff;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg) scale(0);
+            margin-bottom: 2px;
+            transition: transform 0.15s ease;
+        }
+
+        .anon-checkbox-label input[type="checkbox"]:checked + .custom-check {
+            background: linear-gradient(135deg, var(--red-wine-hover) 0%, var(--red-wine) 100%);
+            border-color: var(--red-border-strong);
+            box-shadow: 0 0 10px var(--red-glow);
+        }
+
+        .anon-checkbox-label input[type="checkbox"]:checked + .custom-check::after {
+            transform: rotate(45deg) scale(1);
+        }
+
+        .anon-checkbox-label input[type="checkbox"]:focus-visible + .custom-check {
+            outline: 2px solid var(--red-border);
+            outline-offset: 2px;
         }
 
         .input-with-prefix {
@@ -1064,29 +1103,30 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            background: linear-gradient(135deg, var(--red-bright) 0%, var(--red-primary) 50%, var(--red-dark) 100%);
-            border: 1px solid var(--red-border-strong);
+            background: linear-gradient(135deg, var(--red-wine) 0%, var(--red-wine-dark) 100%);
+            border: 1px solid var(--red-border);
             color: #ffffff;
             font-weight: 600;
-            font-size: 0.92rem;
-            padding: 11px 22px;
+            font-size: 0.88rem;
+            letter-spacing: 0.2px;
+            padding: 8px 20px;
             border-radius: 8px;
             cursor: pointer;
             font-family: inherit;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4), 0 0 12px var(--red-glow);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
             transition: transform 0.15s, box-shadow 0.2s, background 0.2s, border-color 0.2s, opacity 0.2s;
             align-self: flex-start;
         }
 
         .btn-ticket-submit:hover:not(:disabled) {
+            background: linear-gradient(135deg, var(--red-wine-hover) 0%, var(--red-wine-dark) 100%);
+            border-color: var(--red-border-strong);
+            box-shadow: 0 4px 14px var(--red-glow);
             transform: translateY(-1px);
-            box-shadow: 0 4px 18px rgba(220, 38, 38, 0.5);
-            border-color: #ff6b6b;
         }
 
         .btn-ticket-submit:disabled {
-            opacity: 0.65;
+            opacity: 0.55;
             cursor: not-allowed;
             transform: none;
         }
@@ -1224,21 +1264,13 @@
                         <!-- Honeypot антибот-ловушка -->
                         <input type="text" name="website_trap" style="display:none;" tabindex="-1" autocomplete="off">
 
+                        <!-- Строка 1: Выбор новеллы и категории -->
                         <div class="ticket-grid">
                             <div class="ticket-field">
-                                <div class="contact-header-row">
-                                    <label class="ticket-label" for="ticketContact">
-                                        Telegram для связи <span class="req" id="contactReqMarker">*</span>
-                                    </label>
-                                    <label class="anon-checkbox-label" title="Отправить обращение без указания контакта">
-                                        <input type="checkbox" id="anonCheckbox" name="is_anonymous">
-                                        <span>Анонимно</span>
-                                    </label>
-                                </div>
-                                <div class="input-with-prefix">
-                                    <span class="input-prefix" id="tgPrefix">@</span>
-                                    <input type="text" id="ticketContact" name="contact" class="ticket-input with-prefix" placeholder="username" required>
-                                </div>
+                                <label class="ticket-label" for="ticketNovel">Новелла</label>
+                                <select id="ticketNovel" name="novel" class="ticket-select">
+                                    <option value="Нет в списке">Нет в списке</option>
+                                </select>
                             </div>
                             <div class="ticket-field">
                                 <label class="ticket-label" for="ticketCategory">Категория <span class="req">*</span></label>
@@ -1250,24 +1282,19 @@
                             </div>
                         </div>
 
-                        <div class="ticket-grid">
-                            <div class="ticket-field">
-                                <label class="ticket-label" for="ticketNovel">Новелла</label>
-                                <select id="ticketNovel" name="novel" class="ticket-select">
-                                    <option value="Нет в списке">Нет в списке</option>
-                                </select>
-                            </div>
-                            <div class="ticket-field">
-                                <label class="ticket-label" for="ticketSubject">Тема обращения <span class="req">*</span></label>
-                                <input type="text" id="ticketSubject" name="subject" class="ticket-input" placeholder="Краткая суть (например: Опечатка во 2 главе)" required>
-                            </div>
+                        <!-- Строка 2: Тема обращения на всю ширину -->
+                        <div class="ticket-field">
+                            <label class="ticket-label" for="ticketSubject">Тема обращения <span class="req">*</span></label>
+                            <input type="text" id="ticketSubject" name="subject" class="ticket-input" placeholder="Краткая суть (например: Опечатка во 2 главе)" required>
                         </div>
 
+                        <!-- Строка 3: Подробное описание -->
                         <div class="ticket-field">
                             <label class="ticket-label" for="ticketMessage">Подробное описание <span class="req">*</span></label>
                             <textarea id="ticketMessage" name="message" class="ticket-textarea" rows="5" placeholder="Опишите подробнее: где замечена ошибка, как воспроизвести проблему и т.д." required></textarea>
                         </div>
 
+                        <!-- Строка 4: Скриншоты -->
                         <div class="ticket-field">
                             <label class="ticket-label">
                                 <span>Скриншоты <span class="label-sub">(до 5 шт., до 8 МБ каждый)</span></span>
@@ -1288,12 +1315,25 @@
                             <div id="fileError" class="file-error" style="display: none;"></div>
                         </div>
 
+                        <!-- Строка 5: Telegram для связи (чекбокс аккуратно снизу под полем ввода) -->
+                        <div class="ticket-field" style="max-width: 420px;">
+                            <label class="ticket-label" for="ticketContact">
+                                Telegram для связи <span class="req" id="contactReqMarker">*</span>
+                            </label>
+                            <div class="input-with-prefix">
+                                <span class="input-prefix" id="tgPrefix">@</span>
+                                <input type="text" id="ticketContact" name="contact" class="ticket-input with-prefix" placeholder="username" required>
+                            </div>
+                            <label class="anon-checkbox-label" title="Отправить обращение без указания контакта">
+                                <input type="checkbox" id="anonCheckbox" name="is_anonymous">
+                                <span class="custom-check"></span>
+                                <span>Отправить анонимно</span>
+                            </label>
+                        </div>
+
+                        <!-- Строка 6: Кнопка отправки -->
                         <div class="ticket-actions">
                             <button type="submit" class="btn-ticket-submit" id="ticketSubmitBtn">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="22" y1="2" x2="11" y2="13"></line>
-                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                                </svg>
                                 <span>Отправить тикет</span>
                             </button>
                         </div>
