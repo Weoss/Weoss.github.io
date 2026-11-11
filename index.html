@@ -943,6 +943,22 @@
             padding-left: 32px;
         }
 
+        .contact-inline-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .contact-input-wrap {
+            width: 220px;
+        }
+
+        .contact-inline-row .anon-checkbox-label {
+            margin-top: 0;
+            padding: 4px 0;
+        }
+
         .ticket-input,
         .ticket-select,
         .ticket-textarea {
@@ -1001,20 +1017,21 @@
             line-height: 1.55;
         }
 
-        /* Загрузка скриншотов (чистый drag & drop блок) */
+        /* Загрузка скриншотов (чистый drag & drop блок, заполняющийся внутри) */
         .file-dropzone {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            padding: 18px 20px;
+            padding: 16px;
             border: 1px dashed var(--border-hover);
             border-radius: 8px;
             background: #0d0b10;
             cursor: pointer;
             user-select: none;
-            text-align: center;
             transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+            min-height: 84px;
+            box-sizing: border-box;
         }
 
         .file-dropzone:hover,
@@ -1030,14 +1047,23 @@
             box-shadow: 0 0 14px var(--red-glow);
         }
 
-        .file-dropzone svg {
+        .dropzone-empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .dropzone-empty svg {
             color: var(--text-muted);
             transition: color 0.2s, transform 0.2s;
             flex-shrink: 0;
         }
 
-        .file-dropzone:hover svg,
-        .file-dropzone.dragover svg {
+        .file-dropzone:hover .dropzone-empty svg,
+        .file-dropzone.dragover .dropzone-empty svg {
             color: var(--red-bright);
             transform: translateY(-2px);
         }
@@ -1065,52 +1091,71 @@
             text-decoration-color: var(--red-text);
         }
 
-        .file-preview-list {
+        /* Заполненное состояние: превью ВНУТРИ драг-н-дроп поля */
+        .dropzone-filled {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .dropzone-grid {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-top: 10px;
+            width: 100%;
         }
 
-        .file-preview-item {
+        .dropzone-item {
             display: flex;
             align-items: center;
             gap: 8px;
-            background: #18151c;
+            background: #141217;
             border: 1px solid var(--border);
             border-radius: 6px;
-            padding: 5px 8px;
-            font-size: 0.8rem;
-            color: var(--text-main);
+            padding: 5px 8px 5px 5px;
+            max-width: 210px;
+            transition: border-color 0.2s, background-color 0.2s;
+            cursor: default;
         }
 
-        .file-preview-thumb {
-            width: 32px;
-            height: 32px;
+        .dropzone-item:hover {
+            border-color: var(--border-hover);
+            background-color: #1a161f;
+        }
+
+        .dropzone-thumb {
+            width: 36px;
+            height: 36px;
             border-radius: 4px;
             object-fit: cover;
-            background: #0b0a0d;
+            background: #09080b;
+            flex-shrink: 0;
         }
 
-        .file-preview-info {
+        .dropzone-info {
             display: flex;
             flex-direction: column;
-            max-width: 140px;
+            overflow: hidden;
+            flex: 1;
         }
 
-        .file-preview-name {
+        .dropzone-name {
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--text-main);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            font-weight: 500;
         }
 
-        .file-preview-size {
-            font-size: 0.72rem;
+        .dropzone-size {
+            font-size: 0.7rem;
             color: var(--text-muted);
+            margin-top: 1px;
         }
 
-        .file-preview-remove {
+        .dropzone-remove {
             background: transparent;
             border: none;
             color: var(--text-muted);
@@ -1119,53 +1164,50 @@
             padding: 0 4px;
             line-height: 1;
             transition: color 0.15s;
+            flex-shrink: 0;
         }
 
-        .file-preview-remove:hover {
+        .dropzone-remove:hover {
             color: var(--red-bright);
+        }
+
+        .dropzone-add-more {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed var(--border);
+            border-radius: 6px;
+            padding: 6px 14px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: all 0.2s;
+            height: 48px;
+            cursor: pointer;
+        }
+
+        .dropzone-add-more:hover {
+            border-color: var(--red-border-strong);
+            background: rgba(220, 38, 38, 0.08);
+            color: var(--text-main);
+        }
+
+        .dropzone-footer-hint {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 4px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .file-error {
             color: #fca5a5;
             font-size: 0.8rem;
             margin-top: 6px;
-        }
-
-        /* Нижняя панель формы: контакт + чекбокс + кнопка */
-        .ticket-footer-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            gap: 16px;
-            padding-top: 6px;
-            flex-wrap: wrap;
-        }
-
-        .ticket-contact-wrap {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-        }
-
-        .contact-inline {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
-
-        .contact-input-wrap {
-            width: 200px;
-        }
-
-        .contact-inline .anon-checkbox-label {
-            margin-top: 0;
-            padding: 4px 0;
-        }
-
-        .ticket-submit-wrap {
-            display: flex;
-            align-items: flex-end;
         }
 
         .btn-ticket-submit {
@@ -1351,60 +1393,66 @@
                             </div>
                         </div>
 
-                        <!-- Строка 2: Тема обращения на всю ширину -->
+                        <!-- Строка 2: Контакт Telegram (аккуратный компактный инпут + чекбокс Анонимно) -->
+                        <div class="ticket-field">
+                            <label class="ticket-label" for="ticketContact">
+                                Telegram для связи <span class="req" id="contactReqMarker">*</span>
+                            </label>
+                            <div class="contact-inline-row">
+                                <div class="input-with-prefix contact-input-wrap">
+                                    <span class="input-prefix" id="tgPrefix">@</span>
+                                    <input type="text" id="ticketContact" name="contact" class="ticket-input with-prefix" placeholder="username" required>
+                                </div>
+                                <label class="anon-checkbox-label" title="Отправить обращение без указания контакта">
+                                    <input type="checkbox" id="anonCheckbox" name="is_anonymous">
+                                    <span class="custom-check"></span>
+                                    <span>Отправить анонимно</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Строка 3: Тема обращения на всю ширину -->
                         <div class="ticket-field">
                             <label class="ticket-label" for="ticketSubject">Тема обращения <span class="req">*</span></label>
                             <input type="text" id="ticketSubject" name="subject" class="ticket-input" placeholder="Краткая суть (например: Опечатка во 2 главе)" required>
                         </div>
 
-                        <!-- Строка 3: Подробное описание -->
+                        <!-- Строка 4: Подробное описание -->
                         <div class="ticket-field">
                             <label class="ticket-label" for="ticketMessage">Подробное описание <span class="req">*</span></label>
                             <textarea id="ticketMessage" name="message" class="ticket-textarea" rows="5" placeholder="Опишите подробнее: где замечена ошибка, как воспроизвести проблему и т.д." required></textarea>
                         </div>
 
-                        <!-- Строка 4: Скриншоты (чистый кликабельный drag & drop) -->
+                        <!-- Строка 5: Скриншоты (превью отображаются ВНУТРИ драг-н-дроп поля) -->
                         <div class="ticket-field">
                             <label class="ticket-label">
                                 <span>Скриншоты <span class="label-sub">(до 5 шт., до 8 МБ каждый)</span></span>
                             </label>
                             <div class="file-dropzone" id="fileDropzone" tabindex="0" role="button" aria-label="Выбрать или перетащить скриншоты">
                                 <input type="file" id="ticketScreenshots" accept="image/*" multiple style="display: none;">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                    <polyline points="17 8 12 3 7 8"></polyline>
-                                    <line x1="12" y1="3" x2="12" y2="15"></line>
-                                </svg>
-                                <span class="dropzone-text">Перетащите изображения сюда или <span class="dropzone-link">нажмите для выбора</span></span>
+                                
+                                <div class="dropzone-empty" id="dropzoneEmpty">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="17 8 12 3 7 8"></polyline>
+                                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                                    </svg>
+                                    <span class="dropzone-text">Перетащите изображения сюда или <span class="dropzone-link">нажмите для выбора</span></span>
+                                </div>
+
+                                <div class="dropzone-filled" id="dropzoneFilled" style="display: none;">
+                                    <div class="dropzone-grid" id="dropzoneGrid"></div>
+                                    <div class="dropzone-footer-hint" id="dropzoneFooterHint"></div>
+                                </div>
                             </div>
-                            <div id="filePreviewList" class="file-preview-list"></div>
                             <div id="fileError" class="file-error" style="display: none;"></div>
                         </div>
 
-                        <!-- Нижняя панель: контакт для связи (компактный инпут + чекбокс в одну строку) и кнопка отправки -->
-                        <div class="ticket-footer-row">
-                            <div class="ticket-contact-wrap">
-                                <label class="ticket-label" for="ticketContact">
-                                    Telegram для связи <span class="req" id="contactReqMarker">*</span>
-                                </label>
-                                <div class="contact-inline">
-                                    <div class="input-with-prefix contact-input-wrap">
-                                        <span class="input-prefix" id="tgPrefix">@</span>
-                                        <input type="text" id="ticketContact" name="contact" class="ticket-input with-prefix" placeholder="username" required>
-                                    </div>
-                                    <label class="anon-checkbox-label" title="Отправить обращение без указания контакта">
-                                        <input type="checkbox" id="anonCheckbox" name="is_anonymous">
-                                        <span class="custom-check"></span>
-                                        <span>Отправить анонимно</span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="ticket-submit-wrap">
-                                <button type="submit" class="btn-ticket-submit" id="ticketSubmitBtn">
-                                    <span>Отправить тикет</span>
-                                </button>
-                            </div>
+                        <!-- Строка 6: Кнопка отправки -->
+                        <div class="ticket-actions">
+                            <button type="submit" class="btn-ticket-submit" id="ticketSubmitBtn">
+                                <span>Отправить тикет</span>
+                            </button>
                         </div>
 
                         <div id="ticketStatus" class="ticket-status" style="display: none;"></div>
@@ -1794,7 +1842,6 @@
 
         const fileInput = document.getElementById('ticketScreenshots');
         const dropzone = document.getElementById('fileDropzone');
-        const previewList = document.getElementById('filePreviewList');
         const fileError = document.getElementById('fileError');
 
         function showFileError(msg) {
@@ -1816,27 +1863,43 @@
         }
 
         function renderFilePreviews() {
-            if (!previewList) return;
-            previewList.innerHTML = '';
+            const dropzoneEmpty = document.getElementById('dropzoneEmpty');
+            const dropzoneFilled = document.getElementById('dropzoneFilled');
+            const dropzoneGrid = document.getElementById('dropzoneGrid');
+            const dropzoneFooterHint = document.getElementById('dropzoneFooterHint');
+
+            if (!dropzoneEmpty || !dropzoneFilled || !dropzoneGrid) return;
+
+            if (attachedFiles.length === 0) {
+                dropzoneEmpty.style.display = 'flex';
+                dropzoneFilled.style.display = 'none';
+                dropzoneGrid.innerHTML = '';
+                return;
+            }
+
+            dropzoneEmpty.style.display = 'none';
+            dropzoneFilled.style.display = 'flex';
+            dropzoneGrid.innerHTML = '';
+
             attachedFiles.forEach((file, index) => {
                 const item = document.createElement('div');
-                item.className = 'file-preview-item';
+                item.className = 'dropzone-item';
 
                 const thumb = document.createElement('img');
-                thumb.className = 'file-preview-thumb';
+                thumb.className = 'dropzone-thumb';
                 thumb.src = URL.createObjectURL(file);
                 thumb.alt = file.name;
 
                 const info = document.createElement('div');
-                info.className = 'file-preview-info';
+                info.className = 'dropzone-info';
 
                 const nameSpan = document.createElement('span');
-                nameSpan.className = 'file-preview-name';
+                nameSpan.className = 'dropzone-name';
                 nameSpan.textContent = file.name;
                 nameSpan.title = file.name;
 
                 const sizeSpan = document.createElement('span');
-                sizeSpan.className = 'file-preview-size';
+                sizeSpan.className = 'dropzone-size';
                 sizeSpan.textContent = formatBytes(file.size);
 
                 info.appendChild(nameSpan);
@@ -1844,7 +1907,7 @@
 
                 const removeBtn = document.createElement('button');
                 removeBtn.type = 'button';
-                removeBtn.className = 'file-preview-remove';
+                removeBtn.className = 'dropzone-remove';
                 removeBtn.innerHTML = '&times;';
                 removeBtn.title = 'Удалить';
                 removeBtn.addEventListener('click', (e) => {
@@ -1858,8 +1921,34 @@
                 item.appendChild(thumb);
                 item.appendChild(info);
                 item.appendChild(removeBtn);
-                previewList.appendChild(item);
+                dropzoneGrid.appendChild(item);
             });
+
+            // Кнопка "+ Добавить" прямо в сетке, если лимит не достигнут
+            if (attachedFiles.length < maxFiles) {
+                const addMoreBtn = document.createElement('div');
+                addMoreBtn.className = 'dropzone-add-more';
+                addMoreBtn.title = 'Прикрепить ещё файл';
+                addMoreBtn.innerHTML = `
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    <span>Добавить</span>
+                `;
+                addMoreBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (fileInput) fileInput.click();
+                });
+                dropzoneGrid.appendChild(addMoreBtn);
+            }
+
+            if (dropzoneFooterHint) {
+                dropzoneFooterHint.innerHTML = `
+                    <span>Прикреплено: <strong>${attachedFiles.length} из ${maxFiles}</strong></span>
+                    <span>(можно перетащить еще скриншоты)</span>
+                `;
+            }
         }
 
         function handleFiles(files) {
@@ -1887,7 +1976,10 @@
         }
 
         if (dropzone && fileInput) {
-            dropzone.addEventListener('click', () => fileInput.click());
+            dropzone.addEventListener('click', (e) => {
+                if (e.target.closest('.dropzone-item')) return;
+                fileInput.click();
+            });
             dropzone.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
