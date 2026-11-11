@@ -814,6 +814,18 @@
             .ticket-section {
                 padding: 18px 14px;
             }
+            .ticket-footer-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 14px;
+            }
+            .contact-input-wrap {
+                width: 100%;
+            }
+            .btn-ticket-submit {
+                width: 100%;
+                justify-content: center;
+            }
         }
 
         .ticket-field {
@@ -1119,6 +1131,43 @@
             margin-top: 6px;
         }
 
+        /* Нижняя панель формы: контакт + чекбокс + кнопка */
+        .ticket-footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 16px;
+            padding-top: 6px;
+            flex-wrap: wrap;
+        }
+
+        .ticket-contact-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .contact-inline {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .contact-input-wrap {
+            width: 200px;
+        }
+
+        .contact-inline .anon-checkbox-label {
+            margin-top: 0;
+            padding: 4px 0;
+        }
+
+        .ticket-submit-wrap {
+            display: flex;
+            align-items: flex-end;
+        }
+
         .btn-ticket-submit {
             display: inline-flex;
             align-items: center;
@@ -1287,7 +1336,7 @@
                         <!-- Строка 1: Выбор новеллы и категории -->
                         <div class="ticket-grid">
                             <div class="ticket-field">
-                                <label class="ticket-label" for="ticketNovel">Новелла</label>
+                                <label class="ticket-label" for="ticketNovel">Новелла <span class="req">*</span></label>
                                 <select id="ticketNovel" name="novel" class="ticket-select">
                                     <option value="Нет в списке">Нет в списке</option>
                                 </select>
@@ -1332,27 +1381,30 @@
                             <div id="fileError" class="file-error" style="display: none;"></div>
                         </div>
 
-                        <!-- Строка 5: Telegram для связи (чекбокс аккуратно снизу под полем ввода) -->
-                        <div class="ticket-field" style="max-width: 420px;">
-                            <label class="ticket-label" for="ticketContact">
-                                Telegram для связи <span class="req" id="contactReqMarker">*</span>
-                            </label>
-                            <div class="input-with-prefix">
-                                <span class="input-prefix" id="tgPrefix">@</span>
-                                <input type="text" id="ticketContact" name="contact" class="ticket-input with-prefix" placeholder="username" required>
+                        <!-- Нижняя панель: контакт для связи (компактный инпут + чекбокс в одну строку) и кнопка отправки -->
+                        <div class="ticket-footer-row">
+                            <div class="ticket-contact-wrap">
+                                <label class="ticket-label" for="ticketContact">
+                                    Telegram для связи <span class="req" id="contactReqMarker">*</span>
+                                </label>
+                                <div class="contact-inline">
+                                    <div class="input-with-prefix contact-input-wrap">
+                                        <span class="input-prefix" id="tgPrefix">@</span>
+                                        <input type="text" id="ticketContact" name="contact" class="ticket-input with-prefix" placeholder="username" required>
+                                    </div>
+                                    <label class="anon-checkbox-label" title="Отправить обращение без указания контакта">
+                                        <input type="checkbox" id="anonCheckbox" name="is_anonymous">
+                                        <span class="custom-check"></span>
+                                        <span>Отправить анонимно</span>
+                                    </label>
+                                </div>
                             </div>
-                            <label class="anon-checkbox-label" title="Отправить обращение без указания контакта">
-                                <input type="checkbox" id="anonCheckbox" name="is_anonymous">
-                                <span class="custom-check"></span>
-                                <span>Отправить анонимно</span>
-                            </label>
-                        </div>
 
-                        <!-- Строка 6: Кнопка отправки -->
-                        <div class="ticket-actions">
-                            <button type="submit" class="btn-ticket-submit" id="ticketSubmitBtn">
-                                <span>Отправить тикет</span>
-                            </button>
+                            <div class="ticket-submit-wrap">
+                                <button type="submit" class="btn-ticket-submit" id="ticketSubmitBtn">
+                                    <span>Отправить тикет</span>
+                                </button>
+                            </div>
                         </div>
 
                         <div id="ticketStatus" class="ticket-status" style="display: none;"></div>
