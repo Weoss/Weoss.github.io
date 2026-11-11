@@ -785,6 +785,178 @@
             color: #ffffff;
         }
 
+        /* Стили формы тикетов / обратной связи */
+        .ticket-section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 28px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            transition: border-color 0.2s;
+        }
+
+        .ticket-header {
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .ticket-header h2 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ticket-header h2 svg {
+            color: var(--red-bright);
+            stroke: var(--red-bright);
+        }
+
+        .ticket-header p {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            line-height: 1.55;
+        }
+
+        .ticket-form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .ticket-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 640px) {
+            .ticket-grid {
+                grid-template-columns: 1fr;
+            }
+            .ticket-section {
+                padding: 20px 16px;
+            }
+        }
+
+        .ticket-field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .ticket-label {
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .ticket-label .req {
+            color: var(--red-bright);
+        }
+
+        .ticket-input,
+        .ticket-select,
+        .ticket-textarea {
+            width: 100%;
+            background-color: #0d0b10;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: var(--text-main);
+            font-size: 0.92rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+        }
+
+        .ticket-input:focus,
+        .ticket-select:focus,
+        .ticket-textarea:focus {
+            border-color: var(--red-border-strong);
+            box-shadow: 0 0 0 3px var(--red-tint);
+            background-color: #120e14;
+        }
+
+        .ticket-select {
+            cursor: pointer;
+        }
+
+        .ticket-select option {
+            background-color: #141217;
+            color: var(--text-main);
+        }
+
+        .ticket-textarea {
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.55;
+        }
+
+        .btn-ticket-submit {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--red-bright) 0%, var(--red-primary) 50%, var(--red-dark) 100%);
+            border: 1px solid var(--red-border-strong);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.92rem;
+            padding: 11px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4), 0 0 12px var(--red-glow);
+            transition: transform 0.15s, box-shadow 0.2s, background 0.2s, border-color 0.2s, opacity 0.2s;
+            align-self: flex-start;
+        }
+
+        .btn-ticket-submit:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 18px rgba(220, 38, 38, 0.5);
+            border-color: #ff6b6b;
+        }
+
+        .btn-ticket-submit:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .ticket-status {
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            line-height: 1.5;
+            animation: ticketFadeIn 0.3s ease;
+        }
+
+        .ticket-status.success {
+            background: rgba(34, 197, 94, 0.12);
+            border: 1px solid rgba(34, 197, 94, 0.35);
+            color: #4ade80;
+        }
+
+        .ticket-status.error {
+            background: var(--red-tint);
+            border: 1px solid var(--red-border-strong);
+            color: #fca5a5;
+        }
+
+        @keyframes ticketFadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         footer {
             text-align: center;
             margin-top: 50px;
@@ -830,8 +1002,9 @@
         <div class="sticky-nav-wrapper">
             <div class="nav-container">
                 <nav class="tabs-nav">
-                    <button class="tab-btn active" onclick="switchTab('catalog', this)">Каталог новелл</button>
-                    <button class="tab-btn" onclick="switchTab('process', this)">Как создаются переводы</button>
+                    <button class="tab-btn active" data-tab="catalog" onclick="switchTab('catalog', this)">Каталог новелл</button>
+                    <button class="tab-btn" data-tab="process" onclick="switchTab('process', this)">Как создаются переводы</button>
+                    <button class="tab-btn" data-tab="tickets" onclick="switchTab('tickets', this)">Тикеты</button>
                 </nav>
                 <a href="#telegram" class="btn-telegram-nav">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -883,6 +1056,80 @@
                     </div>
                 </section>
             </div>
+
+            <!-- ВКЛАДКА 3: ТИКЕТЫ И ОБРАТНАЯ СВЯЗЬ -->
+            <div id="tab-tickets" class="tab-content">
+                <section class="ticket-section">
+                    <div class="ticket-header">
+                        <h2>
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                            Обратная связь и тикеты
+                        </h2>
+                        <p>
+                            Нашли опечатку, ошибку в переводе, технический баг в патче или хотите предложить новую новеллу? Заполните форму ниже — обращение сразу же поступит в Telegram-группу команды.
+                        </p>
+                    </div>
+
+                    <form id="ticketForm" class="ticket-form" novalidate>
+                        <!-- Honeypot антибот-ловушка -->
+                        <input type="text" name="website_trap" style="display:none;" tabindex="-1" autocomplete="off">
+
+                        <div class="ticket-grid">
+                            <div class="ticket-field">
+                                <label class="ticket-label" for="ticketName">Ваше имя / ник <span class="req">*</span></label>
+                                <input type="text" id="ticketName" name="name" class="ticket-input" placeholder="Например: Weoss" required>
+                            </div>
+                            <div class="ticket-field">
+                                <label class="ticket-label" for="ticketContact">Контакт для связи <span class="req">*</span></label>
+                                <input type="text" id="ticketContact" name="contact" class="ticket-input" placeholder="@username в Telegram или Email" required>
+                            </div>
+                        </div>
+
+                        <div class="ticket-grid">
+                            <div class="ticket-field">
+                                <label class="ticket-label" for="ticketCategory">Категория <span class="req">*</span></label>
+                                <select id="ticketCategory" name="category" class="ticket-select" required>
+                                    <option value="Ошибка в переводе">Ошибка в переводе (опечатка, контекст)</option>
+                                    <option value="Техническая проблема">Техническая проблема (шрифты, вылет, патч)</option>
+                                    <option value="Предложение новеллы">Предложение новеллы для перевода</option>
+                                    <option value="Вопрос">Вопрос по переводу</option>
+                                    <option value="Другое">Другое</option>
+                                </select>
+                            </div>
+                            <div class="ticket-field">
+                                <label class="ticket-label" for="ticketNovel">Новелла</label>
+                                <select id="ticketNovel" name="novel" class="ticket-select">
+                                    <option value="">Не относится к конкретной новелле</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="ticket-field">
+                            <label class="ticket-label" for="ticketSubject">Тема обращения <span class="req">*</span></label>
+                            <input type="text" id="ticketSubject" name="subject" class="ticket-input" placeholder="Краткая суть (например: Опечатка во второй главе)" required>
+                        </div>
+
+                        <div class="ticket-field">
+                            <label class="ticket-label" for="ticketMessage">Подробное описание <span class="req">*</span></label>
+                            <textarea id="ticketMessage" name="message" class="ticket-textarea" rows="5" placeholder="Опишите подробнее: где замечена ошибка, как воспроизвести проблему, ссылки на скриншоты и т.д." required></textarea>
+                        </div>
+
+                        <div class="ticket-actions">
+                            <button type="submit" class="btn-ticket-submit" id="ticketSubmitBtn">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                </svg>
+                                <span>Отправить тикет</span>
+                            </button>
+                        </div>
+
+                        <div id="ticketStatus" class="ticket-status" style="display: none;"></div>
+                    </form>
+                </section>
+            </div>
         </main>
 
         <footer>
@@ -904,7 +1151,16 @@
 
             const targetTab = document.getElementById('tab-' + tabId);
             if (targetTab) targetTab.classList.add('active');
-            if (buttonElement) buttonElement.classList.add('active');
+            if (buttonElement) {
+                buttonElement.classList.add('active');
+            } else {
+                const btn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+                if (btn) btn.classList.add('active');
+            }
+
+            if (history.replaceState) {
+                history.replaceState(null, '', '#' + tabId);
+            }
         }
 
         // Нормализация ссылок на постеры (поддержка GitHub blob, raw, относительных и внешних URL)
@@ -1161,6 +1417,15 @@
                 }
 
                 container.innerHTML = data.map(item => renderCard(item)).join('');
+
+                // Наполнение списка новелл в форме тикетов
+                const novelSelect = document.getElementById('ticketNovel');
+                if (novelSelect && Array.isArray(data)) {
+                    const currentVal = novelSelect.value;
+                    novelSelect.innerHTML = '<option value="">Не относится к конкретной новелле</option>' +
+                        data.map(item => `<option value="${item.title}">${item.title}</option>`).join('');
+                    if (currentVal) novelSelect.value = currentVal;
+                }
             } catch (err) {
                 console.error('Ошибка загрузки titles_data.json:', err);
                 container.innerHTML = `
@@ -1207,11 +1472,92 @@
             }
         });
 
-        // Запуск загрузки каталога
+        // Обработка отправки формы тикетов в Cloudflare Worker -> Telegram
+        const ticketForm = document.getElementById('ticketForm');
+        if (ticketForm) {
+            ticketForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const btn = document.getElementById('ticketSubmitBtn');
+                const status = document.getElementById('ticketStatus');
+
+                const name = ticketForm.name.value.trim();
+                const contact = ticketForm.contact.value.trim();
+                const category = ticketForm.category.value;
+                const novel = ticketForm.novel ? ticketForm.novel.value : '';
+                const subjectText = ticketForm.subject.value.trim();
+                const message = ticketForm.message.value.trim();
+                const trap = ticketForm.website_trap.value;
+
+                if (!name || !contact || !subjectText || !message) {
+                    status.className = 'ticket-status error';
+                    status.textContent = 'Пожалуйста, заполните все обязательные поля (отмечены *).';
+                    status.style.display = 'block';
+                    return;
+                }
+
+                // Добавляем новеллу в тему, если она выбрана
+                const subject = novel ? `[${novel}] ${subjectText}` : subjectText;
+
+                btn.disabled = true;
+                const origHtml = btn.innerHTML;
+                btn.innerHTML = '<span>Отправка...</span>';
+                status.style.display = 'none';
+
+                try {
+                    const res = await fetch('https://ticket-bot.poeweoss.workers.dev', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            name,
+                            contact,
+                            category,
+                            subject,
+                            message,
+                            website_trap: trap
+                        })
+                    });
+
+                    const resData = await res.json().catch(() => ({}));
+                    if (res.ok && resData.success) {
+                        status.className = 'ticket-status success';
+                        status.innerHTML = '✅ <strong>Тикет успешно отправлен!</strong> Спасибо, сообщение уже поступило в Telegram.';
+                        status.style.display = 'block';
+                        ticketForm.reset();
+                    } else {
+                        status.className = 'ticket-status error';
+                        status.textContent = '❌ Ошибка при отправке: ' + (resData.error || resData.details || 'Не удалось отправить тикет');
+                        status.style.display = 'block';
+                    }
+                } catch (err) {
+                    status.className = 'ticket-status error';
+                    status.textContent = '❌ Ошибка сети: ' + err.message;
+                    status.style.display = 'block';
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = origHtml;
+                }
+            });
+        }
+
+        // Переключение на вкладку по хэшу URL (#tickets, #process, #catalog)
+        function syncTabWithHash() {
+            const hash = window.location.hash.replace('#', '');
+            if (hash === 'tickets' || hash === 'process' || hash === 'catalog') {
+                const btn = document.querySelector(`.tab-btn[data-tab="${hash}"]`);
+                if (btn) switchTab(hash, btn);
+            }
+        }
+        window.addEventListener('hashchange', syncTabWithHash);
+
+        // Инициализация страницы
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', loadCatalog);
+            document.addEventListener('DOMContentLoaded', () => {
+                loadCatalog();
+                syncTabWithHash();
+            });
         } else {
             loadCatalog();
+            syncTabWithHash();
         }
     </script>
 </body>
