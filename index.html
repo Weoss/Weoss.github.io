@@ -989,48 +989,68 @@
             line-height: 1.55;
         }
 
-        /* Загрузка скриншотов */
+        /* Загрузка скриншотов (чистый drag & drop блок) */
         .file-dropzone {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 10px 14px;
+            justify-content: center;
+            gap: 10px;
+            padding: 18px 20px;
             border: 1px dashed var(--border-hover);
             border-radius: 8px;
             background: #0d0b10;
-            transition: border-color 0.2s, background-color 0.2s;
+            cursor: pointer;
+            user-select: none;
+            text-align: center;
+            transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+        }
+
+        .file-dropzone:hover,
+        .file-dropzone:focus-visible {
+            border-color: var(--red-border-strong);
+            background-color: rgba(220, 38, 38, 0.04);
+            outline: none;
         }
 
         .file-dropzone.dragover {
             border-color: var(--red-bright);
             background-color: var(--red-tint);
+            box-shadow: 0 0 14px var(--red-glow);
         }
 
-        .btn-upload {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 7px 13px;
-            border-radius: 6px;
-            font-size: 0.83rem;
-            font-weight: 500;
-            font-family: inherit;
-            cursor: pointer;
-            transition: background-color 0.2s, border-color 0.2s;
-            white-space: nowrap;
-        }
-
-        .btn-upload:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .upload-hint {
-            font-size: 0.8rem;
+        .file-dropzone svg {
             color: var(--text-muted);
+            transition: color 0.2s, transform 0.2s;
+            flex-shrink: 0;
+        }
+
+        .file-dropzone:hover svg,
+        .file-dropzone.dragover svg {
+            color: var(--red-bright);
+            transform: translateY(-2px);
+        }
+
+        .dropzone-text {
+            font-size: 0.86rem;
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+
+        .file-dropzone:hover .dropzone-text {
+            color: var(--text-main);
+        }
+
+        .dropzone-link {
+            color: #ffffff;
+            text-decoration: underline;
+            text-decoration-color: rgba(255, 255, 255, 0.3);
+            text-underline-offset: 3px;
+            transition: color 0.15s, text-decoration-color 0.15s;
+        }
+
+        .file-dropzone:hover .dropzone-link {
+            color: var(--red-text);
+            text-decoration-color: var(--red-text);
         }
 
         .file-preview-list {
@@ -1294,22 +1314,19 @@
                             <textarea id="ticketMessage" name="message" class="ticket-textarea" rows="5" placeholder="Опишите подробнее: где замечена ошибка, как воспроизвести проблему и т.д." required></textarea>
                         </div>
 
-                        <!-- Строка 4: Скриншоты -->
+                        <!-- Строка 4: Скриншоты (чистый кликабельный drag & drop) -->
                         <div class="ticket-field">
                             <label class="ticket-label">
                                 <span>Скриншоты <span class="label-sub">(до 5 шт., до 8 МБ каждый)</span></span>
                             </label>
-                            <div class="file-dropzone" id="fileDropzone">
+                            <div class="file-dropzone" id="fileDropzone" tabindex="0" role="button" aria-label="Выбрать или перетащить скриншоты">
                                 <input type="file" id="ticketScreenshots" accept="image/*" multiple style="display: none;">
-                                <button type="button" class="btn-upload" id="uploadTriggerBtn">
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                        <polyline points="17 8 12 3 7 8"></polyline>
-                                        <line x1="12" y1="3" x2="12" y2="15"></line>
-                                    </svg>
-                                    <span>Прикрепить скриншоты</span>
-                                </button>
-                                <span class="upload-hint">или перетащите изображения сюда</span>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="17 8 12 3 7 8"></polyline>
+                                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                                </svg>
+                                <span class="dropzone-text">Перетащите изображения сюда или <span class="dropzone-link">нажмите для выбора</span></span>
                             </div>
                             <div id="filePreviewList" class="file-preview-list"></div>
                             <div id="fileError" class="file-error" style="display: none;"></div>
@@ -1724,7 +1741,6 @@
         const maxSizeBytes = 8 * 1024 * 1024; // 8 МБ
 
         const fileInput = document.getElementById('ticketScreenshots');
-        const uploadBtn = document.getElementById('uploadTriggerBtn');
         const dropzone = document.getElementById('fileDropzone');
         const previewList = document.getElementById('filePreviewList');
         const fileError = document.getElementById('fileError');
@@ -1818,8 +1834,14 @@
             renderFilePreviews();
         }
 
-        if (uploadBtn && fileInput) {
-            uploadBtn.addEventListener('click', () => fileInput.click());
+        if (dropzone && fileInput) {
+            dropzone.addEventListener('click', () => fileInput.click());
+            dropzone.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    fileInput.click();
+                }
+            });
             fileInput.addEventListener('change', (e) => {
                 if (e.target.files && e.target.files.length > 0) {
                     handleFiles(e.target.files);
