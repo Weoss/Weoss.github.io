@@ -790,36 +790,9 @@
             background-color: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 14px;
-            padding: 28px;
+            padding: 24px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
             transition: border-color 0.2s;
-        }
-
-        .ticket-header {
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .ticket-header h2 {
-            font-size: 1.35rem;
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .ticket-header h2 svg {
-            color: var(--red-bright);
-            stroke: var(--red-bright);
-        }
-
-        .ticket-header p {
-            color: var(--text-muted);
-            font-size: 0.92rem;
-            line-height: 1.55;
         }
 
         .ticket-form {
@@ -839,7 +812,7 @@
                 grid-template-columns: 1fr;
             }
             .ticket-section {
-                padding: 20px 16px;
+                padding: 18px 14px;
             }
         }
 
@@ -862,6 +835,63 @@
             color: var(--red-bright);
         }
 
+        .label-sub {
+            font-size: 0.76rem;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        /* Поле контакта с чекбоксом Анонимно */
+        .contact-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .anon-checkbox-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            user-select: none;
+            transition: color 0.15s;
+        }
+
+        .anon-checkbox-label:hover {
+            color: var(--text-main);
+        }
+
+        .anon-checkbox-label input[type="checkbox"] {
+            accent-color: var(--red-primary);
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
+        }
+
+        .input-with-prefix {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-prefix {
+            position: absolute;
+            left: 14px;
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            font-weight: 600;
+            pointer-events: none;
+            user-select: none;
+            transition: opacity 0.2s;
+        }
+
+        .ticket-input.with-prefix {
+            padding-left: 32px;
+        }
+
         .ticket-input,
         .ticket-select,
         .ticket-textarea {
@@ -877,7 +907,14 @@
             transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
         }
 
-        .ticket-input:focus,
+        .ticket-input:disabled {
+            background-color: rgba(255, 255, 255, 0.02);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .ticket-input:focus:not(:disabled),
         .ticket-select:focus,
         .ticket-textarea:focus {
             border-color: var(--red-border-strong);
@@ -885,8 +922,21 @@
             background-color: #120e14;
         }
 
+        /* Кастомная стрелочка в выпадающем списке с правильным отступом от края */
         .ticket-select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 13px 13px;
+            padding-right: 42px;
             cursor: pointer;
+        }
+
+        .ticket-select:hover {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23f3f4f6' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
         }
 
         .ticket-select option {
@@ -896,8 +946,118 @@
 
         .ticket-textarea {
             resize: vertical;
-            min-height: 120px;
+            min-height: 110px;
             line-height: 1.55;
+        }
+
+        /* Загрузка скриншотов */
+        .file-dropzone {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border: 1px dashed var(--border-hover);
+            border-radius: 8px;
+            background: #0d0b10;
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+
+        .file-dropzone.dragover {
+            border-color: var(--red-bright);
+            background-color: var(--red-tint);
+        }
+
+        .btn-upload {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 7px 13px;
+            border-radius: 6px;
+            font-size: 0.83rem;
+            font-weight: 500;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-upload:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .upload-hint {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .file-preview-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .file-preview-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #18151c;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 5px 8px;
+            font-size: 0.8rem;
+            color: var(--text-main);
+        }
+
+        .file-preview-thumb {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            object-fit: cover;
+            background: #0b0a0d;
+        }
+
+        .file-preview-info {
+            display: flex;
+            flex-direction: column;
+            max-width: 140px;
+        }
+
+        .file-preview-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 500;
+        }
+
+        .file-preview-size {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        .file-preview-remove {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+            transition: color 0.15s;
+        }
+
+        .file-preview-remove:hover {
+            color: var(--red-bright);
+        }
+
+        .file-error {
+            color: #fca5a5;
+            font-size: 0.8rem;
+            margin-top: 6px;
         }
 
         .btn-ticket-submit {
@@ -1004,7 +1164,7 @@
                 <nav class="tabs-nav">
                     <button class="tab-btn active" data-tab="catalog" onclick="switchTab('catalog', this)">Каталог новелл</button>
                     <button class="tab-btn" data-tab="process" onclick="switchTab('process', this)">Как создаются переводы</button>
-                    <button class="tab-btn" data-tab="tickets" onclick="switchTab('tickets', this)">Тикеты</button>
+                    <button class="tab-btn" data-tab="tickets" onclick="switchTab('tickets', this)">Создать тикет</button>
                 </nav>
                 <a href="#telegram" class="btn-telegram-nav">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -1057,63 +1217,75 @@
                 </section>
             </div>
 
-            <!-- ВКЛАДКА 3: ТИКЕТЫ И ОБРАТНАЯ СВЯЗЬ -->
+            <!-- ВКЛАДКА 3: СОЗДАТЬ ТИКЕТ -->
             <div id="tab-tickets" class="tab-content">
                 <section class="ticket-section">
-                    <div class="ticket-header">
-                        <h2>
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                            </svg>
-                            Обратная связь и тикеты
-                        </h2>
-                        <p>
-                            Нашли опечатку, ошибку в переводе, технический баг в патче или хотите предложить новую новеллу? Заполните форму ниже — обращение сразу же поступит в Telegram-группу команды.
-                        </p>
-                    </div>
-
                     <form id="ticketForm" class="ticket-form" novalidate>
                         <!-- Honeypot антибот-ловушка -->
                         <input type="text" name="website_trap" style="display:none;" tabindex="-1" autocomplete="off">
 
                         <div class="ticket-grid">
                             <div class="ticket-field">
-                                <label class="ticket-label" for="ticketName">Ваше имя / ник <span class="req">*</span></label>
-                                <input type="text" id="ticketName" name="name" class="ticket-input" placeholder="Например: Weoss" required>
+                                <div class="contact-header-row">
+                                    <label class="ticket-label" for="ticketContact">
+                                        Telegram для связи <span class="req" id="contactReqMarker">*</span>
+                                    </label>
+                                    <label class="anon-checkbox-label" title="Отправить обращение без указания контакта">
+                                        <input type="checkbox" id="anonCheckbox" name="is_anonymous">
+                                        <span>Анонимно</span>
+                                    </label>
+                                </div>
+                                <div class="input-with-prefix">
+                                    <span class="input-prefix" id="tgPrefix">@</span>
+                                    <input type="text" id="ticketContact" name="contact" class="ticket-input with-prefix" placeholder="username" required>
+                                </div>
                             </div>
                             <div class="ticket-field">
-                                <label class="ticket-label" for="ticketContact">Контакт для связи <span class="req">*</span></label>
-                                <input type="text" id="ticketContact" name="contact" class="ticket-input" placeholder="@username в Telegram или Email" required>
+                                <label class="ticket-label" for="ticketCategory">Категория <span class="req">*</span></label>
+                                <select id="ticketCategory" name="category" class="ticket-select" required>
+                                    <option value="Ошибка в переводе">Ошибка в переводе</option>
+                                    <option value="Техническая проблема">Техническая проблема</option>
+                                    <option value="Другое">Другое</option>
+                                </select>
                             </div>
                         </div>
 
                         <div class="ticket-grid">
                             <div class="ticket-field">
-                                <label class="ticket-label" for="ticketCategory">Категория <span class="req">*</span></label>
-                                <select id="ticketCategory" name="category" class="ticket-select" required>
-                                    <option value="Ошибка в переводе">Ошибка в переводе (опечатка, контекст)</option>
-                                    <option value="Техническая проблема">Техническая проблема (шрифты, вылет, патч)</option>
-                                    <option value="Предложение новеллы">Предложение новеллы для перевода</option>
-                                    <option value="Вопрос">Вопрос по переводу</option>
-                                    <option value="Другое">Другое</option>
+                                <label class="ticket-label" for="ticketNovel">Новелла</label>
+                                <select id="ticketNovel" name="novel" class="ticket-select">
+                                    <option value="Нет в списке">Нет в списке</option>
                                 </select>
                             </div>
                             <div class="ticket-field">
-                                <label class="ticket-label" for="ticketNovel">Новелла</label>
-                                <select id="ticketNovel" name="novel" class="ticket-select">
-                                    <option value="">Не относится к конкретной новелле</option>
-                                </select>
+                                <label class="ticket-label" for="ticketSubject">Тема обращения <span class="req">*</span></label>
+                                <input type="text" id="ticketSubject" name="subject" class="ticket-input" placeholder="Краткая суть (например: Опечатка во 2 главе)" required>
                             </div>
-                        </div>
-
-                        <div class="ticket-field">
-                            <label class="ticket-label" for="ticketSubject">Тема обращения <span class="req">*</span></label>
-                            <input type="text" id="ticketSubject" name="subject" class="ticket-input" placeholder="Краткая суть (например: Опечатка во второй главе)" required>
                         </div>
 
                         <div class="ticket-field">
                             <label class="ticket-label" for="ticketMessage">Подробное описание <span class="req">*</span></label>
-                            <textarea id="ticketMessage" name="message" class="ticket-textarea" rows="5" placeholder="Опишите подробнее: где замечена ошибка, как воспроизвести проблему, ссылки на скриншоты и т.д." required></textarea>
+                            <textarea id="ticketMessage" name="message" class="ticket-textarea" rows="5" placeholder="Опишите подробнее: где замечена ошибка, как воспроизвести проблему и т.д." required></textarea>
+                        </div>
+
+                        <div class="ticket-field">
+                            <label class="ticket-label">
+                                <span>Скриншоты <span class="label-sub">(до 5 шт., до 8 МБ каждый)</span></span>
+                            </label>
+                            <div class="file-dropzone" id="fileDropzone">
+                                <input type="file" id="ticketScreenshots" accept="image/*" multiple style="display: none;">
+                                <button type="button" class="btn-upload" id="uploadTriggerBtn">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="17 8 12 3 7 8"></polyline>
+                                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                                    </svg>
+                                    <span>Прикрепить скриншоты</span>
+                                </button>
+                                <span class="upload-hint">или перетащите изображения сюда</span>
+                            </div>
+                            <div id="filePreviewList" class="file-preview-list"></div>
+                            <div id="fileError" class="file-error" style="display: none;"></div>
                         </div>
 
                         <div class="ticket-actions">
@@ -1418,13 +1590,21 @@
 
                 container.innerHTML = data.map(item => renderCard(item)).join('');
 
-                // Наполнение списка новелл в форме тикетов
+                // Наполнение списка новелл в форме тикетов (по алфавиту, "Нет в списке" внизу)
                 const novelSelect = document.getElementById('ticketNovel');
                 if (novelSelect && Array.isArray(data)) {
                     const currentVal = novelSelect.value;
-                    novelSelect.innerHTML = '<option value="">Не относится к конкретной новелле</option>' +
-                        data.map(item => `<option value="${item.title}">${item.title}</option>`).join('');
-                    if (currentVal) novelSelect.value = currentVal;
+                    const sortedTitles = data
+                        .map(item => (item.title || '').trim())
+                        .filter(Boolean)
+                        .sort((a, b) => a.localeCompare(b, 'ru', { sensitivity: 'base' }));
+
+                    novelSelect.innerHTML = sortedTitles.map(t => `<option value="${t}">${t}</option>`).join('') +
+                        '<option value="Нет в списке">Нет в списке</option>';
+
+                    if (currentVal && (sortedTitles.includes(currentVal) || currentVal === 'Нет в списке')) {
+                        novelSelect.value = currentVal;
+                    }
                 }
             } catch (err) {
                 console.error('Ошибка загрузки titles_data.json:', err);
@@ -1472,6 +1652,164 @@
             }
         });
 
+        // Логика чекбокса "Анонимно" для контакта
+        const anonCheckbox = document.getElementById('anonCheckbox');
+        const contactInput = document.getElementById('ticketContact');
+        const contactReqMarker = document.getElementById('contactReqMarker');
+        const tgPrefix = document.getElementById('tgPrefix');
+
+        if (anonCheckbox && contactInput) {
+            anonCheckbox.addEventListener('change', () => {
+                if (anonCheckbox.checked) {
+                    contactInput.value = '';
+                    contactInput.disabled = true;
+                    contactInput.placeholder = 'Анонимно';
+                    contactInput.required = false;
+                    if (contactReqMarker) contactReqMarker.style.display = 'none';
+                    if (tgPrefix) tgPrefix.style.opacity = '0.25';
+                } else {
+                    contactInput.disabled = false;
+                    contactInput.placeholder = 'username';
+                    contactInput.required = true;
+                    if (contactReqMarker) contactReqMarker.style.display = 'inline';
+                    if (tgPrefix) tgPrefix.style.opacity = '1';
+                    contactInput.focus();
+                }
+            });
+        }
+
+        // Логика прикрепления скриншотов (до 5 шт., до 8 МБ каждый)
+        let attachedFiles = [];
+        const maxFiles = 5;
+        const maxSizeBytes = 8 * 1024 * 1024; // 8 МБ
+
+        const fileInput = document.getElementById('ticketScreenshots');
+        const uploadBtn = document.getElementById('uploadTriggerBtn');
+        const dropzone = document.getElementById('fileDropzone');
+        const previewList = document.getElementById('filePreviewList');
+        const fileError = document.getElementById('fileError');
+
+        function showFileError(msg) {
+            if (!fileError) return;
+            fileError.textContent = msg;
+            fileError.style.display = 'block';
+        }
+
+        function hideFileError() {
+            if (!fileError) return;
+            fileError.style.display = 'none';
+            fileError.textContent = '';
+        }
+
+        function formatBytes(bytes) {
+            if (bytes < 1024) return bytes + ' Б';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' КБ';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' МБ';
+        }
+
+        function renderFilePreviews() {
+            if (!previewList) return;
+            previewList.innerHTML = '';
+            attachedFiles.forEach((file, index) => {
+                const item = document.createElement('div');
+                item.className = 'file-preview-item';
+
+                const thumb = document.createElement('img');
+                thumb.className = 'file-preview-thumb';
+                thumb.src = URL.createObjectURL(file);
+                thumb.alt = file.name;
+
+                const info = document.createElement('div');
+                info.className = 'file-preview-info';
+
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'file-preview-name';
+                nameSpan.textContent = file.name;
+                nameSpan.title = file.name;
+
+                const sizeSpan = document.createElement('span');
+                sizeSpan.className = 'file-preview-size';
+                sizeSpan.textContent = formatBytes(file.size);
+
+                info.appendChild(nameSpan);
+                info.appendChild(sizeSpan);
+
+                const removeBtn = document.createElement('button');
+                removeBtn.type = 'button';
+                removeBtn.className = 'file-preview-remove';
+                removeBtn.innerHTML = '&times;';
+                removeBtn.title = 'Удалить';
+                removeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    URL.revokeObjectURL(thumb.src);
+                    attachedFiles.splice(index, 1);
+                    renderFilePreviews();
+                    hideFileError();
+                });
+
+                item.appendChild(thumb);
+                item.appendChild(info);
+                item.appendChild(removeBtn);
+                previewList.appendChild(item);
+            });
+        }
+
+        function handleFiles(files) {
+            hideFileError();
+            const newFiles = Array.from(files);
+
+            for (const file of newFiles) {
+                if (!file.type.startsWith('image/')) {
+                    showFileError('Прикреплять можно только изображения (скриншоты).');
+                    return;
+                }
+                if (file.size > maxSizeBytes) {
+                    showFileError(`Файл «${file.name}» превышает лимит 8 МБ.`);
+                    return;
+                }
+            }
+
+            if (attachedFiles.length + newFiles.length > maxFiles) {
+                showFileError(`Можно прикрепить не более ${maxFiles} скриншотов.`);
+                return;
+            }
+
+            attachedFiles = attachedFiles.concat(newFiles);
+            renderFilePreviews();
+        }
+
+        if (uploadBtn && fileInput) {
+            uploadBtn.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files && e.target.files.length > 0) {
+                    handleFiles(e.target.files);
+                    fileInput.value = '';
+                }
+            });
+        }
+
+        if (dropzone) {
+            ['dragenter', 'dragover'].forEach(name => {
+                dropzone.addEventListener(name, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropzone.classList.add('dragover');
+                });
+            });
+            ['dragleave', 'drop'].forEach(name => {
+                dropzone.addEventListener(name, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropzone.classList.remove('dragover');
+                });
+            });
+            dropzone.addEventListener('drop', (e) => {
+                if (e.dataTransfer && e.dataTransfer.files) {
+                    handleFiles(e.dataTransfer.files);
+                }
+            });
+        }
+
         // Обработка отправки формы тикетов в Cloudflare Worker -> Telegram
         const ticketForm = document.getElementById('ticketForm');
         if (ticketForm) {
@@ -1480,23 +1818,36 @@
                 const btn = document.getElementById('ticketSubmitBtn');
                 const status = document.getElementById('ticketStatus');
 
-                const name = ticketForm.name.value.trim();
-                const contact = ticketForm.contact.value.trim();
+                const isAnon = anonCheckbox && anonCheckbox.checked;
+                let contact = '';
+                if (isAnon) {
+                    contact = 'Аноним';
+                } else {
+                    const rawVal = (contactInput ? contactInput.value : '').trim();
+                    if (!rawVal) {
+                        status.className = 'ticket-status error';
+                        status.textContent = 'Укажите ваш Telegram для связи или выберите «Анонимно».';
+                        status.style.display = 'block';
+                        return;
+                    }
+                    contact = rawVal.startsWith('@') ? rawVal : '@' + rawVal;
+                }
+
                 const category = ticketForm.category.value;
                 const novel = ticketForm.novel ? ticketForm.novel.value : '';
                 const subjectText = ticketForm.subject.value.trim();
                 const message = ticketForm.message.value.trim();
                 const trap = ticketForm.website_trap.value;
 
-                if (!name || !contact || !subjectText || !message) {
+                if (!subjectText || !message) {
                     status.className = 'ticket-status error';
-                    status.textContent = 'Пожалуйста, заполните все обязательные поля (отмечены *).';
+                    status.textContent = 'Пожалуйста, заполните тему и подробное описание.';
                     status.style.display = 'block';
                     return;
                 }
 
                 // Добавляем новеллу в тему, если она выбрана
-                const subject = novel ? `[${novel}] ${subjectText}` : subjectText;
+                const subject = (novel && novel !== 'Нет в списке') ? `[${novel}] ${subjectText}` : subjectText;
 
                 btn.disabled = true;
                 const origHtml = btn.innerHTML;
@@ -1504,17 +1855,20 @@
                 status.style.display = 'none';
 
                 try {
+                    const formData = new FormData();
+                    formData.append('website_trap', trap);
+                    formData.append('contact', contact);
+                    formData.append('category', category);
+                    formData.append('subject', subject);
+                    formData.append('message', message);
+
+                    attachedFiles.forEach(file => {
+                        formData.append('photos', file, file.name);
+                    });
+
                     const res = await fetch('https://ticket-bot.poeweoss.workers.dev', {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            name,
-                            contact,
-                            category,
-                            subject,
-                            message,
-                            website_trap: trap
-                        })
+                        body: formData
                     });
 
                     const resData = await res.json().catch(() => ({}));
@@ -1523,6 +1877,15 @@
                         status.innerHTML = '✅ <strong>Тикет успешно отправлен!</strong> Спасибо, сообщение уже поступило в Telegram.';
                         status.style.display = 'block';
                         ticketForm.reset();
+                        attachedFiles = [];
+                        renderFilePreviews();
+                        if (anonCheckbox && contactInput) {
+                            contactInput.disabled = false;
+                            contactInput.placeholder = 'username';
+                            contactInput.required = true;
+                            if (contactReqMarker) contactReqMarker.style.display = 'inline';
+                            if (tgPrefix) tgPrefix.style.opacity = '1';
+                        }
                     } else {
                         status.className = 'ticket-status error';
                         status.textContent = '❌ Ошибка при отправке: ' + (resData.error || resData.details || 'Не удалось отправить тикет');
