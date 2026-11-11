@@ -1244,6 +1244,19 @@
             color: #fca5a5;
         }
 
+        .ticket-status-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+
+        .ticket-status-text {
+            font-size: 0.88rem;
+            font-weight: 400;
+            line-height: 1.45;
+            color: rgba(255, 255, 255, 0.88);
+        }
+
         @keyframes ticketFadeIn {
             from { opacity: 0; transform: translateY(-4px); }
             to { opacity: 1; transform: translateY(0); }
@@ -2051,7 +2064,15 @@
                     const resData = await res.json().catch(() => ({}));
                     if (res.ok && resData.success) {
                         status.className = 'ticket-status success';
-                        status.innerHTML = '✅ <strong>Тикет успешно отправлен!</strong> Спасибо, сообщение уже поступило в Telegram.';
+                        const isNovelSelected = novel && novel !== 'Нет в списке';
+                        const descText = isNovelSelected
+                            ? 'Я рассмотрю его, и, как только наберется достаточное количество проблем по этому переводу — внесу правки. Если мне потребуется дополнительная информация или тикет будет ошибочным — свяжусь с Вами через Telegram для уточнения (при условии, что тикет не анонимный).'
+                            : 'Я рассмотрю его и свяжусь с Вами через Telegram (при условии, что тикет не анонимный).';
+
+                        status.innerHTML = `
+                            <div class="ticket-status-title">Тикет успешно отправлен!</div>
+                            <div class="ticket-status-text">${descText}</div>
+                        `;
                         status.style.display = 'block';
                         ticketForm.reset();
                         attachedFiles = [];
@@ -2065,12 +2086,12 @@
                         }
                     } else {
                         status.className = 'ticket-status error';
-                        status.textContent = '❌ Ошибка при отправке: ' + (resData.error || resData.details || 'Не удалось отправить тикет');
+                        status.textContent = 'Не удалось отправить тикет. Пожалуйста, попробуйте позже.';
                         status.style.display = 'block';
                     }
                 } catch (err) {
                     status.className = 'ticket-status error';
-                    status.textContent = '❌ Ошибка сети: ' + err.message;
+                    status.textContent = 'Ошибка сети. Пожалуйста, проверьте подключение к интернету и попробуйте снова.';
                     status.style.display = 'block';
                 } finally {
                     btn.disabled = false;
