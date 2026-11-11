@@ -2036,9 +2036,6 @@
                     return;
                 }
 
-                // Добавляем новеллу в тему, если она выбрана
-                const subject = (novel && novel !== 'Нет в списке') ? `[${novel}] ${subjectText}` : subjectText;
-
                 btn.disabled = true;
                 const origHtml = btn.innerHTML;
                 btn.innerHTML = '<span>Отправка...</span>';
@@ -2048,8 +2045,9 @@
                     const formData = new FormData();
                     formData.append('website_trap', trap);
                     formData.append('contact', contact);
+                    formData.append('novel', novel || 'Нет в списке');
                     formData.append('category', category);
-                    formData.append('subject', subject);
+                    formData.append('subject', subjectText);
                     formData.append('message', message);
 
                     attachedFiles.forEach(file => {
