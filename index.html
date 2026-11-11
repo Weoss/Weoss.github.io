@@ -868,16 +868,10 @@
             color: var(--text-muted);
             cursor: pointer;
             user-select: none;
-            transition: color 0.15s, opacity 0.2s;
-        }
-
-        .anon-checkbox-label {
-            margin-top: 5px;
-        }
-
-        .version-checkbox-label {
             margin-top: 0;
+            padding: 4px 0;
             line-height: 1.4;
+            transition: color 0.15s, opacity 0.2s;
         }
 
         .anon-checkbox-label:hover:not(.disabled),
@@ -901,8 +895,8 @@
         }
 
         .custom-check {
-            width: 17px;
-            height: 17px;
+            width: 18px;
+            height: 18px;
             background-color: #0d0b10;
             border: 1px solid var(--border);
             border-radius: 4px;
@@ -910,6 +904,7 @@
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            box-sizing: border-box;
             transition: all 0.15s ease;
         }
 
@@ -921,9 +916,9 @@
 
         .custom-check::after {
             content: '';
-            width: 10px;
-            height: 9px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='1.5 5.2 4.3 8 10.5 1.8'/%3E%3C/svg%3E");
+            width: 12px;
+            height: 12px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='4 12 9 17 20 6'/%3E%3C/svg%3E");
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
@@ -979,11 +974,6 @@
 
         .contact-input-wrap {
             width: 220px;
-        }
-
-        .contact-inline-row .anon-checkbox-label {
-            margin-top: 0;
-            padding: 4px 0;
         }
 
         .ticket-input,
