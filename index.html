@@ -1171,27 +1171,8 @@
             color: var(--red-bright);
         }
 
-        .dropzone-add-more {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px dashed var(--border);
-            border-radius: 6px;
-            padding: 6px 14px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            transition: all 0.2s;
-            height: 48px;
-            cursor: pointer;
-        }
-
-        .dropzone-add-more:hover {
-            border-color: var(--red-border-strong);
-            background: rgba(220, 38, 38, 0.08);
-            color: var(--text-main);
+        .file-dropzone.is-full {
+            cursor: default;
         }
 
         .dropzone-footer-hint {
@@ -1375,25 +1356,7 @@
                         <!-- Honeypot антибот-ловушка -->
                         <input type="text" name="website_trap" style="display:none;" tabindex="-1" autocomplete="off">
 
-                        <!-- Строка 1: Выбор новеллы и категории -->
-                        <div class="ticket-grid">
-                            <div class="ticket-field">
-                                <label class="ticket-label" for="ticketNovel">Новелла <span class="req">*</span></label>
-                                <select id="ticketNovel" name="novel" class="ticket-select">
-                                    <option value="Нет в списке">Нет в списке</option>
-                                </select>
-                            </div>
-                            <div class="ticket-field">
-                                <label class="ticket-label" for="ticketCategory">Категория <span class="req">*</span></label>
-                                <select id="ticketCategory" name="category" class="ticket-select" required>
-                                    <option value="Ошибка в переводе">Ошибка в переводе</option>
-                                    <option value="Техническая проблема">Техническая проблема</option>
-                                    <option value="Другое">Другое</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Строка 2: Контакт Telegram (аккуратный компактный инпут + чекбокс Анонимно) -->
+                        <!-- Строка 1: Контакт Telegram (аккуратный компактный инпут + чекбокс Анонимно) -->
                         <div class="ticket-field">
                             <label class="ticket-label" for="ticketContact">
                                 Telegram для связи <span class="req" id="contactReqMarker">*</span>
@@ -1408,6 +1371,24 @@
                                     <span class="custom-check"></span>
                                     <span>Отправить анонимно</span>
                                 </label>
+                            </div>
+                        </div>
+
+                        <!-- Строка 2: Выбор новеллы и категории -->
+                        <div class="ticket-grid">
+                            <div class="ticket-field">
+                                <label class="ticket-label" for="ticketNovel">Новелла <span class="req">*</span></label>
+                                <select id="ticketNovel" name="novel" class="ticket-select">
+                                    <option value="Нет в списке">Нет в списке</option>
+                                </select>
+                            </div>
+                            <div class="ticket-field">
+                                <label class="ticket-label" for="ticketCategory">Категория <span class="req">*</span></label>
+                                <select id="ticketCategory" name="category" class="ticket-select" required>
+                                    <option value="Ошибка в переводе">Ошибка в переводе</option>
+                                    <option value="Техническая проблема">Техническая проблема</option>
+                                    <option value="Другое">Другое</option>
+                                </select>
                             </div>
                         </div>
 
@@ -1874,12 +1855,20 @@
                 dropzoneEmpty.style.display = 'flex';
                 dropzoneFilled.style.display = 'none';
                 dropzoneGrid.innerHTML = '';
+                if (dropzone) dropzone.classList.remove('is-full');
                 return;
             }
 
             dropzoneEmpty.style.display = 'none';
             dropzoneFilled.style.display = 'flex';
             dropzoneGrid.innerHTML = '';
+            if (dropzone) {
+                if (attachedFiles.length >= maxFiles) {
+                    dropzone.classList.add('is-full');
+                } else {
+                    dropzone.classList.remove('is-full');
+                }
+            }
 
             attachedFiles.forEach((file, index) => {
                 const item = document.createElement('div');
@@ -1924,29 +1913,9 @@
                 dropzoneGrid.appendChild(item);
             });
 
-            // Кнопка "+ Добавить" прямо в сетке, если лимит не достигнут
-            if (attachedFiles.length < maxFiles) {
-                const addMoreBtn = document.createElement('div');
-                addMoreBtn.className = 'dropzone-add-more';
-                addMoreBtn.title = 'Прикрепить ещё файл';
-                addMoreBtn.innerHTML = `
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                    <span>Добавить</span>
-                `;
-                addMoreBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    if (fileInput) fileInput.click();
-                });
-                dropzoneGrid.appendChild(addMoreBtn);
-            }
-
             if (dropzoneFooterHint) {
                 dropzoneFooterHint.innerHTML = `
                     <span>Прикреплено: <strong>${attachedFiles.length} из ${maxFiles}</strong></span>
-                    <span>(можно перетащить еще скриншоты)</span>
                 `;
             }
         }
@@ -1978,10 +1947,12 @@
         if (dropzone && fileInput) {
             dropzone.addEventListener('click', (e) => {
                 if (e.target.closest('.dropzone-item')) return;
+                if (attachedFiles.length >= maxFiles) return;
                 fileInput.click();
             });
             dropzone.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
+                    if (attachedFiles.length >= maxFiles) return;
                     e.preventDefault();
                     fileInput.click();
                 }
