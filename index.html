@@ -822,6 +822,11 @@
             .contact-input-wrap {
                 width: 100%;
             }
+            .ticket-actions {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
             .btn-ticket-submit {
                 width: 100%;
                 justify-content: center;
@@ -854,7 +859,8 @@
         }
 
         /* Кастомный чекбокс под тему сайта */
-        .anon-checkbox-label {
+        .anon-checkbox-label,
+        .version-checkbox-label {
             display: inline-flex;
             align-items: center;
             gap: 8px;
@@ -862,15 +868,31 @@
             color: var(--text-muted);
             cursor: pointer;
             user-select: none;
-            margin-top: 5px;
-            transition: color 0.15s;
+            transition: color 0.15s, opacity 0.2s;
         }
 
-        .anon-checkbox-label:hover {
+        .anon-checkbox-label {
+            margin-top: 5px;
+        }
+
+        .version-checkbox-label {
+            margin-top: 0;
+            line-height: 1.4;
+        }
+
+        .anon-checkbox-label:hover:not(.disabled),
+        .version-checkbox-label:hover:not(.disabled) {
             color: var(--text-main);
         }
 
-        .anon-checkbox-label input[type="checkbox"] {
+        .version-checkbox-label.disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .anon-checkbox-label input[type="checkbox"],
+        .version-checkbox-label input[type="checkbox"] {
             position: absolute;
             opacity: 0;
             width: 0;
@@ -891,7 +913,8 @@
             transition: all 0.15s ease;
         }
 
-        .anon-checkbox-label:hover .custom-check {
+        .anon-checkbox-label:hover:not(.disabled) .custom-check,
+        .version-checkbox-label:hover:not(.disabled) .custom-check {
             border-color: var(--border-hover);
             background-color: #141217;
         }
@@ -907,17 +930,20 @@
             transition: transform 0.15s ease;
         }
 
-        .anon-checkbox-label input[type="checkbox"]:checked + .custom-check {
+        .anon-checkbox-label input[type="checkbox"]:checked + .custom-check,
+        .version-checkbox-label input[type="checkbox"]:checked + .custom-check {
             background: linear-gradient(135deg, var(--red-wine-hover) 0%, var(--red-wine) 100%);
             border-color: var(--red-border-strong);
             box-shadow: 0 0 10px var(--red-glow);
         }
 
-        .anon-checkbox-label input[type="checkbox"]:checked + .custom-check::after {
+        .anon-checkbox-label input[type="checkbox"]:checked + .custom-check::after,
+        .version-checkbox-label input[type="checkbox"]:checked + .custom-check::after {
             transform: rotate(45deg) scale(1);
         }
 
-        .anon-checkbox-label input[type="checkbox"]:focus-visible + .custom-check {
+        .anon-checkbox-label input[type="checkbox"]:focus-visible + .custom-check,
+        .version-checkbox-label input[type="checkbox"]:focus-visible + .custom-check {
             outline: 2px solid var(--red-border);
             outline-offset: 2px;
         }
@@ -1191,6 +1217,13 @@
             margin-top: 6px;
         }
 
+        .ticket-actions {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
         .btn-ticket-submit {
             display: inline-flex;
             align-items: center;
@@ -1207,7 +1240,7 @@
             font-family: inherit;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
             transition: transform 0.15s, box-shadow 0.2s, background 0.2s, border-color 0.2s, opacity 0.2s;
-            align-self: flex-start;
+            flex-shrink: 0;
         }
 
         .btn-ticket-submit:hover:not(:disabled) {
@@ -1218,9 +1251,10 @@
         }
 
         .btn-ticket-submit:disabled {
-            opacity: 0.55;
+            opacity: 0.45;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
 
         .ticket-status {
@@ -1442,11 +1476,16 @@
                             <div id="fileError" class="file-error" style="display: none;"></div>
                         </div>
 
-                        <!-- Строка 6: Кнопка отправки -->
+                        <!-- Строка 6: Кнопка отправки и подтверждение версии перевода -->
                         <div class="ticket-actions">
-                            <button type="submit" class="btn-ticket-submit" id="ticketSubmitBtn">
+                            <button type="submit" class="btn-ticket-submit" id="ticketSubmitBtn" disabled>
                                 <span>Отправить тикет</span>
                             </button>
+                            <label class="version-checkbox-label" id="versionCheckboxLabel" title="Подтвердите актуальность версии перевода">
+                                <input type="checkbox" id="versionCheckbox" name="version_verified">
+                                <span class="custom-check"></span>
+                                <span>Я убедился что использую последнюю версию перевода для новеллы</span>
+                            </label>
                         </div>
 
                         <div id="ticketStatus" class="ticket-status" style="display: none;"></div>
@@ -1756,6 +1795,7 @@
                     if (currentVal && (sortedTitles.includes(currentVal) || currentVal === 'Нет в списке')) {
                         novelSelect.value = currentVal;
                     }
+                    updateVersionCheckboxState();
                 }
             } catch (err) {
                 console.error('Ошибка загрузки titles_data.json:', err);
@@ -1827,6 +1867,44 @@
                     contactInput.focus();
                 }
             });
+        }
+
+        // Логика чекбокса "Я убедился что использую последнюю версию перевода для новеллы"
+        const versionCheckbox = document.getElementById('versionCheckbox');
+        const versionLabel = document.getElementById('versionCheckboxLabel');
+        const novelSelect = document.getElementById('ticketNovel');
+        const ticketSubmitBtn = document.getElementById('ticketSubmitBtn');
+
+        function updateVersionCheckboxState() {
+            if (!novelSelect || !versionCheckbox || !ticketSubmitBtn) return;
+            const val = novelSelect.value;
+            const isSpecificNovel = val && val !== 'Нет в списке';
+
+            if (isSpecificNovel) {
+                // Выбрана новелла: чекбокс активен и обязателен, блокирует кнопку до отметки
+                versionCheckbox.disabled = false;
+                if (versionLabel) {
+                    versionLabel.classList.remove('disabled');
+                    versionLabel.title = 'Подтвердите актуальность версии перевода';
+                }
+                ticketSubmitBtn.disabled = !versionCheckbox.checked;
+            } else {
+                // "Нет в списке": чекбокс блокируется, кнопка по дефолту доступна
+                versionCheckbox.checked = false;
+                versionCheckbox.disabled = true;
+                if (versionLabel) {
+                    versionLabel.classList.add('disabled');
+                    versionLabel.title = 'Не требуется для пунктов не из списка';
+                }
+                ticketSubmitBtn.disabled = false;
+            }
+        }
+
+        if (novelSelect) {
+            novelSelect.addEventListener('change', updateVersionCheckboxState);
+        }
+        if (versionCheckbox) {
+            versionCheckbox.addEventListener('change', updateVersionCheckboxState);
         }
 
         // Логика прикрепления скриншотов (до 5 шт., до 8 МБ каждый)
@@ -2025,6 +2103,16 @@
 
                 const category = ticketForm.category.value;
                 const novel = ticketForm.novel ? ticketForm.novel.value : '';
+                const isNovelSelected = novel && novel !== 'Нет в списке';
+
+                // Если выбрана конкретная новелла — подтверждение версии обязательно
+                if (isNovelSelected && (!versionCheckbox || !versionCheckbox.checked)) {
+                    status.className = 'ticket-status error';
+                    status.textContent = 'Пожалуйста, подтвердите, что используете последнюю версию перевода для новеллы.';
+                    status.style.display = 'block';
+                    return;
+                }
+
                 const subjectText = ticketForm.subject.value.trim();
                 const message = ticketForm.message.value.trim();
                 const trap = ticketForm.website_trap.value;
@@ -2062,7 +2150,6 @@
                     const resData = await res.json().catch(() => ({}));
                     if (res.ok && resData.success) {
                         status.className = 'ticket-status success';
-                        const isNovelSelected = novel && novel !== 'Нет в списке';
                         const descText = isNovelSelected
                             ? 'Я рассмотрю его, и, как только наберется достаточное количество проблем по этому переводу — внесу правки. Если мне потребуется дополнительная информация или тикет будет ошибочным — свяжусь с Вами через Telegram для уточнения (при условии, что тикет не анонимный).'
                             : 'Я рассмотрю его и свяжусь с Вами через Telegram (при условии, что тикет не анонимный).';
@@ -2082,6 +2169,7 @@
                             if (contactReqMarker) contactReqMarker.style.display = 'inline';
                             if (tgPrefix) tgPrefix.style.opacity = '1';
                         }
+                        updateVersionCheckboxState();
                     } else {
                         status.className = 'ticket-status error';
                         status.textContent = 'Не удалось отправить тикет. Пожалуйста, попробуйте позже.';
@@ -2092,8 +2180,8 @@
                     status.textContent = 'Ошибка сети. Пожалуйста, проверьте подключение к интернету и попробуйте снова.';
                     status.style.display = 'block';
                 } finally {
-                    btn.disabled = false;
                     btn.innerHTML = origHtml;
+                    updateVersionCheckboxState();
                 }
             });
         }
@@ -2113,10 +2201,12 @@
             document.addEventListener('DOMContentLoaded', () => {
                 loadCatalog();
                 syncTabWithHash();
+                updateVersionCheckboxState();
             });
         } else {
             loadCatalog();
             syncTabWithHash();
+            updateVersionCheckboxState();
         }
     </script>
 </body>
