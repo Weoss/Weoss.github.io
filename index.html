@@ -258,15 +258,19 @@
 
         /* Карточка новеллы */
         .card {
+            position: relative;
             background-color: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 14px;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
             padding: 18px;
             gap: 20px;
             transition: border-color 0.2s, background-color 0.2s;
+        }
+
+        .card:has(.download-dropdown-wrap.open) {
+            z-index: 30;
         }
 
         @media (min-width: 640px) {
@@ -352,7 +356,58 @@
         .game-meta {
             color: var(--text-muted);
             font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+
+        .card-info-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
             margin-bottom: 12px;
+        }
+
+        .info-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 9px;
+            border-radius: 6px;
+            font-size: 0.76rem;
+            font-weight: 500;
+            line-height: 1.35;
+            border: 1px solid var(--border);
+            background-color: rgba(255, 255, 255, 0.03);
+            color: #d1d5db;
+        }
+
+        .info-badge .info-badge-label {
+            color: var(--text-muted);
+        }
+
+        .info-badge.is-positive {
+            background-color: rgba(34, 197, 94, 0.09);
+            border-color: rgba(34, 197, 94, 0.28);
+            color: #bbf7d0;
+        }
+
+        .info-badge.is-positive .info-badge-label {
+            color: #86efac;
+        }
+
+        .info-badge.is-accent {
+            background-color: var(--red-tint);
+            border-color: var(--red-border);
+            color: #fecaca;
+        }
+
+        .info-badge.is-accent .info-badge-label {
+            color: #fca5a5;
+        }
+
+        .info-badge.is-neutral {
+            background-color: rgba(255, 255, 255, 0.03);
+            border-color: var(--border);
+            color: #9ca3af;
         }
 
         .card p {
@@ -496,13 +551,17 @@
             display: inline-block;
         }
 
+        .download-dropdown-wrap.open {
+            z-index: 40;
+        }
+
         .btn-download {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 7px;
-            background: linear-gradient(135deg, var(--red-bright) 0%, var(--red-primary) 50%, var(--red-dark) 100%);
-            border: 1px solid var(--red-border-strong);
+            background: linear-gradient(135deg, var(--red-wine) 0%, var(--red-wine-dark) 100%);
+            border: 1px solid var(--red-border);
             color: #ffffff;
             font-weight: 600;
             font-size: 0.88rem;
@@ -510,15 +569,22 @@
             border-radius: 8px;
             cursor: pointer;
             font-family: inherit;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4), 0 0 12px var(--red-glow);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
             transition: transform 0.15s, box-shadow 0.2s, background 0.2s, border-color 0.2s;
             white-space: nowrap;
+            outline: none;
         }
 
         .btn-download:hover {
+            background: linear-gradient(135deg, var(--red-wine-hover) 0%, var(--red-wine-dark) 100%);
+            border-color: var(--red-border-strong);
+            box-shadow: 0 4px 14px var(--red-glow);
             transform: translateY(-1px);
-            box-shadow: 0 4px 16px rgba(220, 38, 38, 0.45);
-            border-color: #ff6b6b;
+        }
+
+        .btn-download:focus-visible {
+            border-color: var(--red-border-strong);
+            box-shadow: 0 0 0 2px var(--red-border);
         }
 
         .btn-download svg {
@@ -538,7 +604,7 @@
             position: absolute;
             top: calc(100% + 8px);
             left: 0;
-            min-width: 250px;
+            min-width: 280px;
             max-width: calc(100vw - 40px);
             background: #18151c;
             border: 1px solid var(--border-hover);
@@ -573,7 +639,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
+            gap: 14px;
             padding: 9px 12px;
             border-radius: 6px;
             color: var(--text-main);
@@ -603,6 +669,13 @@
             flex-shrink: 0;
         }
 
+        .download-dropdown-item .item-meta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
         .download-dropdown-item .item-date {
             font-size: 0.76rem;
             color: var(--text-muted);
@@ -610,8 +683,31 @@
             white-space: nowrap;
         }
 
+        .download-dropdown-item .item-downloads {
+            display: none;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #d1d5db;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            padding: 2px 7px;
+            border-radius: 5px;
+            white-space: nowrap;
+        }
+
+        .download-dropdown-item .item-downloads.is-visible {
+            display: inline-flex;
+        }
+
         .download-dropdown-item:hover .item-date {
             color: #e5e7eb;
+        }
+
+        .download-dropdown-item:hover .item-downloads {
+            border-color: var(--red-border);
+            color: #ffffff;
         }
 
         .btn-secondary {
@@ -1609,6 +1705,174 @@
             };
         }
 
+        const GH_RELEASES_API_URL = 'https://api.github.com/repos/Weoss/Weoss.github.io/releases?per_page=100';
+        const GH_RELEASES_CACHE_KEY = 'weoss_gh_releases_stats_v1';
+        const GH_RELEASES_CACHE_TTL_MS = 10 * 60 * 1000;
+        let ghReleasesFetchPromise = null;
+
+        function normalizeDownloadKey(url) {
+            if (!url || typeof url !== 'string') return '';
+            try {
+                return new URL(url.trim(), window.location.origin).pathname.toLowerCase();
+            } catch {
+                return url.trim().toLowerCase();
+            }
+        }
+
+        function readCachedDownloadCounts() {
+            try {
+                const raw = localStorage.getItem(GH_RELEASES_CACHE_KEY);
+                if (!raw) return null;
+                const parsed = JSON.parse(raw);
+                if (!parsed || typeof parsed.timestamp !== 'number' || typeof parsed.counts !== 'object' || !parsed.counts) {
+                    return null;
+                }
+                if (Date.now() - parsed.timestamp > GH_RELEASES_CACHE_TTL_MS) {
+                    return null;
+                }
+                return parsed.counts;
+            } catch {
+                return null;
+            }
+        }
+
+        function writeCachedDownloadCounts(counts) {
+            try {
+                localStorage.setItem(GH_RELEASES_CACHE_KEY, JSON.stringify({
+                    timestamp: Date.now(),
+                    counts
+                }));
+            } catch {
+                // Ignore storage quota or private mode errors
+            }
+        }
+
+        function applyDownloadCounts(counts) {
+            if (!counts || typeof counts !== 'object') return;
+            document.querySelectorAll('.download-dropdown-item[data-download-url]').forEach(link => {
+                const key = normalizeDownloadKey(link.getAttribute('data-download-url'));
+                const badge = link.querySelector('.item-downloads');
+                if (!key || !badge) return;
+
+                if (Object.prototype.hasOwnProperty.call(counts, key)) {
+                    const count = Number(counts[key]);
+                    if (Number.isFinite(count) && count >= 0) {
+                        const countText = badge.querySelector('.item-downloads-count');
+                        if (countText) {
+                            countText.textContent = count.toLocaleString('ru-RU');
+                        }
+                        badge.title = `Скачиваний: ${count.toLocaleString('ru-RU')}`;
+                        badge.classList.add('is-visible');
+                    }
+                }
+            });
+        }
+
+        async function ensureReleaseDownloadCounts() {
+            const cached = readCachedDownloadCounts();
+            if (cached) {
+                applyDownloadCounts(cached);
+                return cached;
+            }
+
+            if (ghReleasesFetchPromise) {
+                return ghReleasesFetchPromise;
+            }
+
+            ghReleasesFetchPromise = (async () => {
+                try {
+                    const response = await fetch(GH_RELEASES_API_URL, {
+                        headers: { 'Accept': 'application/vnd.github+json' }
+                    });
+                    if (!response.ok) {
+                        throw new Error('GitHub API HTTP ' + response.status);
+                    }
+                    const releases = await response.json();
+                    const counts = {};
+                    if (Array.isArray(releases)) {
+                        for (const rel of releases) {
+                            if (!rel || !Array.isArray(rel.assets)) continue;
+                            for (const asset of rel.assets) {
+                                if (!asset || !asset.browser_download_url) continue;
+                                const key = normalizeDownloadKey(asset.browser_download_url);
+                                if (key && typeof asset.download_count === 'number') {
+                                    counts[key] = asset.download_count;
+                                }
+                            }
+                        }
+                    }
+                    writeCachedDownloadCounts(counts);
+                    applyDownloadCounts(counts);
+                    return counts;
+                } catch (err) {
+                    console.warn('Не удалось получить статистику скачиваний с GitHub:', err);
+                    return null;
+                } finally {
+                    ghReleasesFetchPromise = null;
+                }
+            })();
+
+            return ghReleasesFetchPromise;
+        }
+
+        function parseReleaseDate(dateStr) {
+            if (!dateStr || typeof dateStr !== 'string') return 0;
+            const trimmed = dateStr.trim();
+            const dmy = trimmed.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+            if (dmy) {
+                return Date.UTC(Number(dmy[3]), Number(dmy[2]) - 1, Number(dmy[1]));
+            }
+            const parsed = Date.parse(trimmed);
+            return Number.isNaN(parsed) ? 0 : parsed;
+        }
+
+        function sortReleases(releases) {
+            if (!Array.isArray(releases)) return [];
+            return [...releases].sort((a, b) => {
+                const dateDiff = parseReleaseDate(b?.date) - parseReleaseDate(a?.date);
+                if (dateDiff !== 0) return dateDiff;
+                const verA = String(a?.name || a?.version || '');
+                const verB = String(b?.name || b?.version || '');
+                return verB.localeCompare(verA, undefined, { numeric: true, sensitivity: 'base' });
+            });
+        }
+
+        function getInfoBadgeVariant(value) {
+            const v = (value || '').toString().trim().toLowerCase();
+            if (!v) return 'is-neutral';
+            if (v.includes('работа') || v.includes('доступ') || v.includes('есть') || v.includes('встроен') || v === 'да') {
+                return 'is-positive';
+            }
+            if (v.includes('не работают') || v.includes('сломан') || v.includes('нет данных')) {
+                return 'is-accent';
+            }
+            return 'is-neutral';
+        }
+
+        function renderInfoBadges(item) {
+            const badges = [];
+            if (item.achievements) {
+                const val = escapeHtml(String(item.achievements).trim());
+                badges.push(`
+                    <span class="info-badge ${getInfoBadgeVariant(item.achievements)}">
+                        <span class="info-badge-label">Достижения:</span>
+                        <span>${val}</span>
+                    </span>
+                `);
+            }
+            if (item.patch18) {
+                const val = escapeHtml(String(item.patch18).trim());
+                badges.push(`
+                    <span class="info-badge ${getInfoBadgeVariant(item.patch18)}">
+                        <span class="info-badge-label">Патч 18+:</span>
+                        <span>${val}</span>
+                    </span>
+                `);
+            }
+            if (badges.length === 0) return '';
+            return `<div class="card-info-badges">${badges.join('')}</div>`;
+        }
+
         // Рендер карточки тайтла
         function renderCard(item) {
             const posterSrc = normalizePosterUrl(item.poster);
@@ -1619,6 +1883,7 @@
             if (item.developer) metaParts.push(escapeHtml(item.developer));
             if (item.year) metaParts.push(escapeHtml(String(item.year)));
             const metaText = metaParts.join(' • ');
+            const infoBadgesHtml = renderInfoBadges(item);
 
             // Статус и прогресс
             const statusCfg = getStatusConfig(item.status);
@@ -1626,7 +1891,7 @@
 
             // Релизы и кнопка "Скачать"
             // ВАЖНО: Если ни одного релиза нет, даже если статус "Переведено" — кнопку Скачать не добавляем
-            const releases = Array.isArray(item.releases) ? item.releases : [];
+            const releases = sortReleases(item.releases);
             let downloadBtnHtml = '';
             if (releases.length > 0) {
                 const releaseItemsHtml = releases.map(rel => {
@@ -1634,7 +1899,7 @@
                     const date = escapeHtml(rel.date || '');
                     const url = (rel.downloadUrl || rel.url || '#').trim();
                     return `
-                        <a href="${escapeHtml(url)}" target="_blank" rel="noopener" class="download-dropdown-item">
+                        <a href="${escapeHtml(url)}" data-download-url="${escapeHtml(url)}" target="_blank" rel="noopener" class="download-dropdown-item">
                             <span class="item-version">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -1643,7 +1908,17 @@
                                 </svg>
                                 <span>${name}</span>
                             </span>
-                            ${date ? `<span class="item-date">${date}</span>` : ''}
+                            <span class="item-meta">
+                                ${date ? `<span class="item-date">${date}</span>` : ''}
+                                <span class="item-downloads">
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="7 10 12 15 17 10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                    <span class="item-downloads-count">0</span>
+                                </span>
+                            </span>
                         </a>
                     `;
                 }).join('');
@@ -1700,6 +1975,7 @@
                         <div>
                             <h2>${titleEscaped}</h2>
                             ${metaText ? `<div class="game-meta">${metaText}</div>` : ''}
+                            ${infoBadgesHtml}
                             ${descHtml}
                         </div>
 
@@ -1762,6 +2038,10 @@
                 }
 
                 container.innerHTML = data.map(item => renderCard(item)).join('');
+                const cachedCounts = readCachedDownloadCounts();
+                if (cachedCounts) {
+                    applyDownloadCounts(cachedCounts);
+                }
 
                 // Наполнение списка новелл в форме тикетов (по алфавиту, "Нет в списке" внизу)
                 const novelSelect = document.getElementById('ticketNovel');
@@ -1812,6 +2092,9 @@
                 e.stopPropagation();
                 const isOpen = clickedWrap.classList.toggle('open');
                 btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                if (isOpen) {
+                    ensureReleaseDownloadCounts();
+                }
             }
         });
 
