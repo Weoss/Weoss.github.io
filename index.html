@@ -2040,16 +2040,17 @@
                     applyDownloadCounts(cachedCounts);
                 }
 
-                // Наполнение списка новелл в форме тикетов (по алфавиту, "Нет в списке" внизу)
+                // Наполнение списка новелл в форме тикетов (только тайтлы с хотя бы одним релизом, по алфавиту, "Нет в списке" внизу)
                 const novelSelect = document.getElementById('ticketNovel');
                 if (novelSelect && Array.isArray(data)) {
                     const currentVal = novelSelect.value;
                     const sortedTitles = data
+                        .filter(item => Array.isArray(item.releases) && item.releases.length > 0)
                         .map(item => (item.title || '').trim())
                         .filter(Boolean)
                         .sort((a, b) => a.localeCompare(b, 'ru', { sensitivity: 'base' }));
 
-                    novelSelect.innerHTML = sortedTitles.map(t => `<option value="${t}">${t}</option>`).join('') +
+                    novelSelect.innerHTML = sortedTitles.map(t => `<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`).join('') +
                         '<option value="Нет в списке">Нет в списке</option>';
 
                     if (currentVal && (sortedTitles.includes(currentVal) || currentVal === 'Нет в списке')) {
