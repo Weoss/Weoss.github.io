@@ -207,23 +207,20 @@
             border-color: var(--red-border);
         }
 
-        /* Кнопка Telegram: сдержанный темный винный стиль с четким белым текстом */
+        /* Кнопка Telegram: сдержанный темный винный стиль (только иконка) */
         .btn-telegram-nav {
             display: inline-flex;
             align-items: center;
-            gap: 7px;
+            justify-content: center;
             background: linear-gradient(135deg, var(--red-wine) 0%, var(--red-wine-dark) 100%);
             color: #ffffff;
             text-decoration: none;
-            padding: 7px 15px;
+            padding: 9px 11px;
             border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.86rem;
-            letter-spacing: 0.2px;
             border: 1px solid var(--red-border);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
             transition: transform 0.15s, box-shadow 0.2s, background 0.2s, border-color 0.2s;
-            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .btn-telegram-nav svg {
@@ -250,8 +247,7 @@
                 font-size: 0.82rem;
             }
             .btn-telegram-nav {
-                padding: 6px 12px;
-                font-size: 0.8rem;
+                padding: 7px 9px;
             }
         }
 
@@ -1336,12 +1332,11 @@
                     <button class="tab-btn" data-tab="process" onclick="switchTab('process', this)">Как создаются переводы</button>
                     <button class="tab-btn" data-tab="tickets" onclick="switchTab('tickets', this)">Создать тикет</button>
                 </nav>
-                <a href="#telegram" class="btn-telegram-nav">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <a href="https://t.me/+FlzVfTH8JaMzNzFi" target="_blank" rel="noopener noreferrer" class="btn-telegram-nav" title="Telegram-канал" aria-label="Telegram-канал">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="22" y1="2" x2="11" y2="13"></line>
                         <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                     </svg>
-                    <span>Telegram-канал</span>
                 </a>
             </div>
         </div>
